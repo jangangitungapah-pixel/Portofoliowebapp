@@ -1,0 +1,523 @@
+/* ================================
+   STUDIO DEMO MINIMAL ELEGANT OVERHAUL
+   Clean SaaS-style visual refresh
+   ================================ */
+
+.studio-demo-page {
+    --studio-bg: #f5f3ef;
+    --studio-surface: #ffffff;
+    --studio-surface-soft: #fbfaf7;
+    --studio-text: #171717;
+    --studio-muted: #73706a;
+    --studio-line: rgba(23, 23, 23, 0.1);
+    --studio-line-strong: rgba(23, 23, 23, 0.16);
+    --studio-accent: #171717;
+    --studio-accent-soft: #ebe7df;
+    --studio-success: #2f6f4e;
+    --studio-warning: #9a6a16;
+    --studio-danger: #9f2f3f;
+    --studio-shadow: 0 22px 70px rgba(23, 23, 23, 0.08);
+    --studio-shadow-soft: 0 12px 36px rgba(23, 23, 23, 0.06);
+    min-height: 100vh;
+    color: var(--studio-text);
+    background: radial-gradient(circle at 15% 5%, rgba(255, 255, 255, 0.9), transparent 28rem), linear-gradient(135deg, #f5f3ef 0%, #ebe7df 100%);
+}
+
+/* calmer spacing */
+.studio-hero,
+.studio-section {
+    width: min(100% - 40px, 1180px);
+}
+
+/* top nav */
+.studio-demo-nav {
+    min-height: 64px;
+    padding: 10px 12px 10px 18px;
+    border: 1px solid var(--studio-line);
+    border-radius: 999px;
+    color: var(--studio-text);
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(22px);
+    box-shadow: var(--studio-shadow-soft);
+}
+
+    .studio-demo-nav span {
+        padding: 10px 14px;
+        border-radius: 999px;
+        color: var(--studio-muted);
+        background: var(--studio-surface-soft);
+        font-size: 0.88rem;
+    }
+
+.studio-back-link {
+    color: var(--studio-text);
+    transition: opacity 0.22s ease, transform 0.22s ease;
+}
+
+    .studio-back-link:hover {
+        opacity: 0.7;
+        transform: translateX(-2px);
+    }
+
+/* hero */
+.studio-hero {
+    padding: 28px 0 58px;
+}
+
+.studio-hero-grid {
+    grid-template-columns: minmax(0, 1fr) 380px;
+    gap: clamp(34px, 6vw, 78px);
+    padding-top: 74px;
+}
+
+.studio-kicker {
+    width: fit-content;
+    margin-bottom: 18px;
+    padding: 8px 12px;
+    border: 1px solid var(--studio-line);
+    border-radius: 999px;
+    color: var(--studio-muted);
+    background: rgba(255, 255, 255, 0.62);
+    letter-spacing: 0.12em;
+}
+
+.studio-hero h1 {
+    max-width: 760px;
+    color: var(--studio-text);
+    font-family: "Space Grotesk", Inter, sans-serif;
+    font-size: clamp(3rem, 6.3vw, 5.9rem);
+    line-height: 0.95;
+    letter-spacing: -0.075em;
+}
+
+.studio-lead {
+    max-width: 640px;
+    margin-top: 24px;
+    color: var(--studio-muted);
+    font-size: clamp(1rem, 1.4vw, 1.12rem);
+    line-height: 1.8;
+}
+
+/* buttons */
+.studio-primary-btn,
+.studio-secondary-btn {
+    min-height: 48px;
+    padding: 0 18px;
+    border-radius: 999px;
+    font-size: 0.94rem;
+    transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.24s ease, border-color 0.24s ease, background 0.24s ease, color 0.24s ease;
+}
+
+.studio-primary-btn {
+    color: #ffffff;
+    background: var(--studio-accent);
+    box-shadow: 0 14px 34px rgba(23, 23, 23, 0.16);
+}
+
+    .studio-primary-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 20px 48px rgba(23, 23, 23, 0.2);
+    }
+
+.studio-secondary-btn {
+    color: var(--studio-text);
+    border: 1px solid var(--studio-line);
+    background: rgba(255, 255, 255, 0.62);
+}
+
+    .studio-secondary-btn:hover {
+        transform: translateY(-3px);
+        border-color: var(--studio-line-strong);
+        background: #ffffff;
+        box-shadow: var(--studio-shadow-soft);
+    }
+
+/* live card */
+.studio-live-card,
+.studio-panel,
+.studio-stat-card {
+    border: 1px solid var(--studio-line);
+    color: var(--studio-text);
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(22px);
+    box-shadow: var(--studio-shadow);
+}
+
+.studio-live-card {
+    border-radius: 30px;
+    padding: 22px;
+}
+
+.studio-live-header small,
+.studio-live-footer span,
+.studio-panel-header p {
+    color: var(--studio-muted);
+}
+
+.studio-live-header strong,
+.studio-live-footer strong {
+    color: var(--studio-text);
+}
+
+.studio-live-header > span,
+.studio-panel-header > span {
+    color: var(--studio-text);
+    border: 1px solid var(--studio-line);
+    background: var(--studio-accent-soft);
+}
+
+/* equalizer becomes elegant activity bars */
+.studio-equalizer {
+    height: 210px;
+    gap: 10px;
+    margin: 30px 0;
+    padding: 18px;
+    border: 1px solid var(--studio-line);
+    border-radius: 24px;
+    background: linear-gradient(rgba(23, 23, 23, 0.035) 1px, transparent 1px), rgba(255, 255, 255, 0.44);
+    background-size: 100% 34px;
+}
+
+    .studio-equalizer i {
+        border-radius: 999px 999px 10px 10px;
+        background: linear-gradient(180deg, #171717, #8b867d);
+        box-shadow: none;
+        opacity: 0.88;
+    }
+
+/* stats */
+.studio-section {
+    padding: 26px 0;
+}
+
+.studio-stats-grid {
+    gap: 14px;
+}
+
+.studio-stat-card {
+    padding: 22px;
+    border-radius: 24px;
+    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s ease, border-color 0.28s ease;
+}
+
+    .studio-stat-card:hover {
+        transform: translateY(-6px);
+        border-color: var(--studio-line-strong);
+        box-shadow: 0 24px 70px rgba(23, 23, 23, 0.12);
+    }
+
+    .studio-stat-card span {
+        color: var(--studio-muted);
+    }
+
+    .studio-stat-card strong {
+        color: var(--studio-text);
+        font-size: 1.75rem;
+    }
+
+    .studio-stat-card p {
+        color: var(--studio-muted);
+    }
+
+/* command/search */
+.studio-command-bar {
+    border: 1px solid var(--studio-line);
+    color: var(--studio-text);
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(22px);
+    box-shadow: var(--studio-shadow-soft);
+}
+
+    .studio-command-bar p,
+    .invoice-toolbar p {
+        color: var(--studio-muted);
+        letter-spacing: 0.12em;
+    }
+
+    .studio-command-bar h2,
+    .invoice-toolbar h2 {
+        color: var(--studio-text);
+    }
+
+.studio-search-wrap input,
+.booking-form input,
+.booking-form select,
+.booking-form textarea {
+    border: 1px solid var(--studio-line);
+    color: var(--studio-text);
+    background: #ffffff;
+    box-shadow: inset 0 1px 0 rgba(23, 23, 23, 0.02);
+}
+
+    .studio-search-wrap input:focus,
+    .booking-form input:focus,
+    .booking-form select:focus,
+    .booking-form textarea:focus {
+        border-color: rgba(23, 23, 23, 0.32);
+        box-shadow: 0 0 0 4px rgba(23, 23, 23, 0.06);
+    }
+
+/* filters */
+.studio-filter {
+    border: 1px solid var(--studio-line);
+    color: var(--studio-muted);
+    background: rgba(255, 255, 255, 0.62);
+}
+
+    .studio-filter:hover,
+    .studio-filter.active {
+        color: #ffffff;
+        border-color: var(--studio-accent);
+        background: var(--studio-accent);
+        transform: translateY(-2px);
+    }
+
+/* panels */
+.studio-panel {
+    border-radius: 28px;
+    padding: 24px;
+}
+
+.studio-panel-header h2 {
+    color: var(--studio-text);
+}
+
+.studio-dashboard-grid {
+    gap: 16px;
+}
+
+/* booking list */
+.booking-list {
+    gap: 10px;
+}
+
+.booking-item {
+    border: 1px solid var(--studio-line);
+    color: var(--studio-text);
+    background: rgba(255, 255, 255, 0.62);
+    border-radius: 18px;
+    transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.24s ease, background 0.24s ease, box-shadow 0.24s ease;
+}
+
+    .booking-item:hover,
+    .booking-item.active {
+        border-color: rgba(23, 23, 23, 0.22);
+        background: #ffffff;
+        box-shadow: 0 16px 42px rgba(23, 23, 23, 0.08);
+        transform: translateY(-3px);
+    }
+
+    .booking-item span {
+        color: var(--studio-muted);
+    }
+
+.booking-empty {
+    border-color: var(--studio-line);
+    color: var(--studio-text);
+    background: rgba(255, 255, 255, 0.52);
+}
+
+    .booking-empty p {
+        color: var(--studio-muted);
+    }
+
+/* status badges */
+.status-pill-demo {
+    border: 1px solid transparent;
+}
+
+    .status-pill-demo.paid {
+        color: var(--studio-success);
+        border-color: rgba(47, 111, 78, 0.16);
+        background: rgba(47, 111, 78, 0.1);
+    }
+
+    .status-pill-demo.pending {
+        color: var(--studio-warning);
+        border-color: rgba(154, 106, 22, 0.16);
+        background: rgba(154, 106, 22, 0.11);
+    }
+
+    .status-pill-demo.cancelled {
+        color: var(--studio-danger);
+        border-color: rgba(159, 47, 63, 0.16);
+        background: rgba(159, 47, 63, 0.1);
+    }
+
+/* selected booking */
+.selected-booking-body div,
+.studio-note,
+.mini-insight-grid div,
+.package-card {
+    border: 1px solid var(--studio-line);
+    color: var(--studio-text);
+    background: rgba(255, 255, 255, 0.62);
+}
+
+    .selected-booking-body span,
+    .mini-insight-grid span,
+    .package-card p,
+    .studio-note {
+        color: var(--studio-muted);
+    }
+
+    .selected-booking-body strong,
+    .mini-insight-grid strong,
+    .package-card h3 {
+        color: var(--studio-text);
+    }
+
+.studio-action-row {
+    gap: 8px;
+}
+
+.studio-mini-btn {
+    min-height: 40px;
+    border: 1px solid var(--studio-line);
+    color: var(--studio-text);
+    background: #ffffff;
+    transition: transform 0.22s ease, box-shadow 0.22s ease, background 0.22s ease, color 0.22s ease, border-color 0.22s ease;
+}
+
+    .studio-mini-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--studio-shadow-soft);
+    }
+
+    .studio-mini-btn.paid {
+        color: var(--studio-success);
+        background: rgba(47, 111, 78, 0.1);
+    }
+
+    .studio-mini-btn.pending {
+        color: var(--studio-warning);
+        background: rgba(154, 106, 22, 0.1);
+    }
+
+    .studio-mini-btn.cancelled,
+    .studio-mini-btn.danger {
+        color: var(--studio-danger);
+        background: rgba(159, 47, 63, 0.08);
+    }
+
+/* form */
+.booking-form label {
+    color: var(--studio-text);
+}
+
+.booking-form textarea {
+    min-height: 104px;
+}
+
+/* package cards */
+.package-card {
+    border-radius: 20px;
+    transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.24s ease, border-color 0.24s ease;
+}
+
+    .package-card:hover {
+        transform: translateY(-5px);
+        border-color: var(--studio-line-strong);
+        box-shadow: var(--studio-shadow-soft);
+    }
+
+    .package-card span {
+        color: var(--studio-muted);
+    }
+
+    .package-card strong {
+        color: var(--studio-text);
+    }
+
+/* invoice wrapper on screen */
+.invoice-preview {
+    background: rgba(255, 255, 255, 0.72);
+}
+
+.invoice-toolbar {
+    color: var(--studio-text);
+}
+
+.invoice-toolbar-actions .studio-secondary-btn {
+    background: #ffffff;
+}
+
+/* invoice paper looks premium */
+.invoice-paper,
+.upgraded-invoice {
+    color: #171717;
+    background: #ffffff;
+    border: 1px solid rgba(23, 23, 23, 0.08);
+    box-shadow: 0 24px 80px rgba(23, 23, 23, 0.12);
+}
+
+.invoice-logo {
+    color: #ffffff;
+    background: #171717;
+    box-shadow: none;
+}
+
+.invoice-badge,
+.invoice-meta-grid.upgraded > div,
+.invoice-studio-info > div,
+.invoice-terms,
+.invoice-total-card {
+    background: #fbfaf7;
+    border-color: rgba(23, 23, 23, 0.1);
+}
+
+.invoice-service-row.head {
+    background: #f0eee8;
+}
+
+.invoice-total-card .grand strong {
+    color: #171717;
+}
+
+/* toast/modal should still match minimal style on studio page */
+.studio-demo-page .app-toast {
+    color: #171717;
+    background: rgba(255, 255, 255, 0.92);
+    border-color: rgba(23, 23, 23, 0.12);
+    box-shadow: 0 24px 80px rgba(23, 23, 23, 0.14);
+}
+
+    .studio-demo-page .app-toast p {
+        color: var(--studio-muted);
+    }
+
+/* mobile */
+@media (max-width: 980px) {
+    .studio-hero-grid {
+        grid-template-columns: 1fr;
+        padding-top: 56px;
+    }
+
+    .studio-live-card {
+        max-width: 520px;
+    }
+}
+
+@media (max-width: 680px) {
+    .studio-hero,
+    .studio-section {
+        width: min(100% - 28px, 1180px);
+    }
+
+    .studio-demo-nav {
+        border-radius: 24px;
+    }
+
+    .studio-hero h1 {
+        font-size: clamp(2.7rem, 14vw, 4.3rem);
+    }
+
+    .studio-hero-actions {
+        gap: 10px;
+    }
+
+    .studio-primary-btn,
+    .studio-secondary-btn {
+        width: 100%;
+    }
+}

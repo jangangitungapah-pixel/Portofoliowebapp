@@ -1,0 +1,79 @@
+/* ================================
+   UNIVERSAL FLOATING CARD HOVER
+   Makes all cards lift like live prototype
+   ================================ */
+
+@media (hover: hover) and (pointer: fine) {
+    :where( .glass-card, .service-card, .project-card, .timeline-item, .demo-cta-card, .app-window, .creator-console, .hero-stats-youth div, .demo-tab, .preview-card, .console-card, .floating-note, .contact-section ) {
+        translate: 0 0;
+        transition: translate 0.28s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.28s ease, box-shadow 0.28s ease, background 0.28s ease, filter 0.28s ease;
+        will-change: translate, box-shadow;
+    }
+
+    :where( .glass-card, .service-card, .project-card, .timeline-item, .demo-cta-card, .app-window, .creator-console, .hero-stats-youth div, .preview-card, .console-card, .contact-section ):hover {
+        translate: 0 -10px;
+        border-color: rgba(67, 247, 255, 0.42);
+        box-shadow: 0 34px 100px rgba(0, 0, 0, 0.46), 0 0 0 1px rgba(67, 247, 255, 0.12), 0 0 60px rgba(67, 247, 255, 0.08);
+    }
+
+    .demo-tab:hover {
+        translate: 6px -4px;
+    }
+
+    .floating-note:hover {
+        translate: 0 -7px;
+    }
+
+    .demo-cta-card:hover {
+        translate: 0 -12px;
+    }
+
+    .project-card:hover,
+    .service-card:hover,
+    .glass-card:hover {
+        filter: saturate(1.08);
+    }
+}
+/* ================================
+   SMOOTHER FLOATING HOVER FINAL FIX
+   ================================ */
+
+@media (hover: hover) and (pointer: fine) {
+    :where( .glass-card, .service-card, .project-card, .timeline-item, .demo-cta-card, .app-window, .creator-console, .hero-stats-youth div, .demo-tab, .preview-card, .console-card, .floating-note, .contact-section ) {
+        translate: 0 0;
+        backface-visibility: hidden;
+        transform-style: preserve-3d;
+        will-change: translate, transform, box-shadow, border-color, filter;
+        transition: translate 520ms cubic-bezier(0.16, 1, 0.3, 1), transform 520ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 520ms cubic-bezier(0.16, 1, 0.3, 1), border-color 420ms ease, background 420ms ease, filter 420ms ease;
+    }
+
+    /* Matikan transform hover lama supaya nggak dobel dengan translate */
+    :where( .glass-card, .service-card, .project-card, .timeline-item, .app-window, .contact-section, .demo-tab ):not([data-tilt-card]):hover {
+        transform: none;
+    }
+
+    :where( .glass-card, .service-card, .project-card, .timeline-item, .demo-cta-card, .app-window, .creator-console, .hero-stats-youth div, .preview-card, .console-card, .contact-section ):hover {
+        translate: 0 -8px;
+        border-color: rgba(67, 247, 255, 0.42);
+        box-shadow: 0 28px 80px rgba(0, 0, 0, 0.42), 0 0 0 1px rgba(67, 247, 255, 0.12), 0 0 54px rgba(67, 247, 255, 0.075);
+    }
+
+    .demo-cta-card:hover {
+        translate: 0 -10px;
+    }
+
+    .demo-tab:hover {
+        translate: 4px -3px;
+        transform: none;
+    }
+
+    .floating-note:hover {
+        translate: 0 -6px;
+    }
+
+    .project-card:hover,
+    .service-card:hover,
+    .glass-card:hover {
+        filter: saturate(1.06) brightness(1.03);
+    }
+}

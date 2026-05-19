@@ -1,0 +1,55 @@
+@if (Visible)
+{
+    <div class="confirm-backdrop" @onclick="OnCancel">
+        <div class="@DialogClass" @onclick:stopPropagation="true">
+            <div class="confirm-icon">@Icon</div>
+
+            <div class="confirm-content">
+                <p>@Eyebrow</p>
+                <h3>@Title</h3>
+                <span>@Message</span>
+            </div>
+
+            <div class="confirm-actions">
+                <button type="button" class="confirm-cancel-btn" @onclick="OnCancel">
+                    Batal
+                </button>
+
+                <button type="button" class="confirm-danger-btn" @onclick="OnConfirm">
+                    @ButtonText
+                </button>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public bool Visible { get; set; }
+
+    [Parameter]
+    public string Eyebrow { get; set; } = "Konfirmasi aksi";
+
+    [Parameter]
+    public string Title { get; set; } = string.Empty;
+
+    [Parameter]
+    public string Message { get; set; } = string.Empty;
+
+    [Parameter]
+    public string ButtonText { get; set; } = "Lanjutkan";
+
+    [Parameter]
+    public string Icon { get; set; } = "⚠️";
+
+    [Parameter]
+    public string Type { get; set; } = "danger";
+
+    [Parameter]
+    public EventCallback OnCancel { get; set; }
+
+    [Parameter]
+    public EventCallback OnConfirm { get; set; }
+
+    private string DialogClass => $"confirm-dialog {Type}";
+}

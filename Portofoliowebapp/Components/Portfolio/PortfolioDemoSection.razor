@@ -1,0 +1,150 @@
+﻿    <section class="section demo-section demo-section-polished" id="demo">
+        <div class="section-heading">
+            <p>Live prototype</p>
+            <h2>Demo web app yang bisa langsung dicoba.</h2>
+        </div>
+
+        <div class="demo-cta-grid" data-aos="fade-up">
+            <a class="demo-cta-card primary-demo" href="/studio-demo" data-tilt-card>
+                <div class="demo-cta-icon">🎧</div>
+                <div>
+                    <span>User App Demo</span>
+                    <h3>Studio Management App</h3>
+                    <p>
+                        Coba alur booking studio, filter jadwal, tambah booking,
+                        update status pembayaran, dan preview invoice.
+                    </p>
+                </div>
+                <strong>Buka Studio Demo →</strong>
+            </a>
+
+            <a class="demo-cta-card" href="/studio-admin" data-tilt-card>
+                <div class="demo-cta-icon">⚡</div>
+                <div>
+                    <span>Admin Panel Demo</span>
+                    <h3>Dashboard Owner</h3>
+                    <p>
+                        Masuk ke simulasi dashboard admin untuk melihat overview,
+                        booking manager, customer, finance, dan settings.
+                    </p>
+                </div>
+                <strong>Buka Admin Demo →</strong>
+            </a>
+        </div>
+
+        <div class="demo-note-strip" data-aos="fade-up">
+            <span>Demo mode</span>
+            <p>
+                Data masih dummy dan belum tersimpan ke database. Fokus demo ini adalah menunjukkan flow,
+                tampilan, interaksi, dan arah produk yang bisa dikembangkan ke versi production.
+            </p>
+        </div>
+
+        <div class="demo-shell">
+            <div class="demo-tabs" role="tablist" aria-label="Demo app selector">
+                @for (var i = 0; i < Demos.Count; i++)
+                {
+                    var index = i;
+                    var demo = Demos[index];
+
+                    <button type="button"
+                            class="@GetDemoButtonClass(index)"
+                            @onclick="() => SelectDemo(index)"
+                            aria-pressed="@(ActiveDemoIndex == index)">
+                        <span>@demo.Number</span>
+                        @demo.Title
+                    </button>
+                }
+            </div>
+
+            <div class="demo-preview-panel">
+                <div class="app-window">
+                    <div class="app-window-top">
+                        <div>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <p>@ActiveDemo.Url</p>
+                    </div>
+
+                    <div class="app-window-body">
+                        <aside class="app-demo-sidebar">
+                            <div class="demo-avatar">@ActiveDemo.Icon</div>
+                            <p>@ActiveDemo.Category</p>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </aside>
+
+                        <div class="app-demo-main">
+                            <div class="demo-main-header">
+                                <div>
+                                    <p>@ActiveDemo.Label</p>
+                                    <h3>@ActiveDemo.Title</h3>
+                                </div>
+
+                                <span>@ActiveDemo.Badge</span>
+                            </div>
+
+                            <p class="demo-description">@ActiveDemo.Description</p>
+
+                            <div class="demo-metrics">
+                                <div>
+                                    <strong>@ActiveDemo.MetricOne</strong>
+                                    <span>@ActiveDemo.MetricOneLabel</span>
+                                </div>
+                                <div>
+                                    <strong>@ActiveDemo.MetricTwo</strong>
+                                    <span>@ActiveDemo.MetricTwoLabel</span>
+                                </div>
+                                <div>
+                                    <strong>@ActiveDemo.MetricThree</strong>
+                                    <span>@ActiveDemo.MetricThreeLabel</span>
+                                </div>
+                            </div>
+
+                            <div class="demo-list">
+                                @foreach (var item in ActiveDemo.Features)
+                                {
+                                    <div>
+                                        <span>✓</span>
+                                        <p>@item</p>
+                                    </div>
+                                }
+                            </div>
+
+                            <div class="demo-preview-actions">
+                                <a href="/studio-demo">Coba User App</a>
+                                <a href="/studio-admin">Coba Admin Panel</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-caption">
+                    <strong>Catatan:</strong>
+                    preview di bawah ini menjelaskan konsep fitur. Untuk pengalaman interaktif penuh,
+                    buka Studio Demo atau Admin Panel Demo.
+                </div>
+            </div>
+        </div>
+    </section>
+
+@code {
+    private int ActiveDemoIndex { get; set; }
+
+    private PortfolioDemoItem ActiveDemo => Demos[ActiveDemoIndex];
+
+    private List<PortfolioDemoItem> Demos { get; } = PortfolioSeedData.CreateDemos();
+
+    private void SelectDemo(int index)
+    {
+        ActiveDemoIndex = index;
+    }
+
+    private string GetDemoButtonClass(int index)
+    {
+        return ActiveDemoIndex == index ? "demo-tab active" : "demo-tab";
+    }
+}

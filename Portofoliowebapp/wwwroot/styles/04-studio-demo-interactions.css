@@ -1,0 +1,239 @@
+/* ================================
+   STUDIO DEMO INTERACTION PATCH
+   ================================ */
+
+.studio-command-bar {
+    display: grid;
+    grid-template-columns: 1fr minmax(260px, 420px);
+    align-items: end;
+    gap: 20px;
+    padding: 24px;
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 28px;
+    background: linear-gradient(145deg, rgba(255,255,255,0.11), rgba(255,255,255,0.045));
+    backdrop-filter: blur(24px);
+    box-shadow: 0 28px 90px rgba(0,0,0,0.28);
+}
+
+    .studio-command-bar p,
+    .invoice-toolbar p {
+        margin: 0 0 8px;
+        color: #43f7ff;
+        font-size: 0.78rem;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+    }
+
+    .studio-command-bar h2,
+    .invoice-toolbar h2 {
+        margin: 0;
+        font-size: clamp(1.6rem, 3vw, 2.6rem);
+        letter-spacing: -0.06em;
+    }
+
+.studio-search-wrap input {
+    width: 100%;
+    min-height: 52px;
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 999px;
+    padding: 0 18px;
+    color: #f8f9ff;
+    background: rgba(0,0,0,0.22);
+    outline: none;
+}
+
+    .studio-search-wrap input:focus {
+        border-color: rgba(67,247,255,0.7);
+        box-shadow: 0 0 0 4px rgba(67,247,255,0.1);
+    }
+
+.studio-filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 14px;
+}
+
+.studio-filter {
+    min-height: 42px;
+    padding: 0 16px;
+    border: 1px solid rgba(255,255,255,0.13);
+    border-radius: 999px;
+    color: #cfd5f3;
+    background: rgba(255,255,255,0.055);
+    font-weight: 900;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+    .studio-filter:hover,
+    .studio-filter.active {
+        color: #05050b;
+        border-color: transparent;
+        background: linear-gradient(135deg, #43f7ff, #c6ff3d);
+        transform: translateY(-2px);
+    }
+
+.booking-empty {
+    padding: 24px;
+    border: 1px dashed rgba(255,255,255,0.18);
+    border-radius: 22px;
+    text-align: center;
+    background: rgba(255,255,255,0.035);
+}
+
+    .booking-empty strong {
+        display: block;
+        font-size: 1.1rem;
+    }
+
+    .booking-empty p {
+        margin: 8px 0 0;
+        color: #aeb5d6;
+    }
+
+.status-pill-demo.cancelled {
+    color: #fff;
+    background: #ff5578;
+}
+
+.studio-action-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-top: 16px;
+}
+
+.studio-mini-btn {
+    min-height: 42px;
+    border: 0;
+    border-radius: 14px;
+    color: #05050b;
+    font-weight: 900;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+    .studio-mini-btn:hover {
+        transform: translateY(-2px);
+    }
+
+    .studio-mini-btn.paid {
+        background: #c6ff3d;
+    }
+
+    .studio-mini-btn.pending {
+        background: #ffcc70;
+    }
+
+    .studio-mini-btn.cancelled {
+        color: #fff;
+        background: #ff5578;
+    }
+
+    .studio-mini-btn.danger {
+        color: #fff;
+        background: rgba(255,255,255,0.12);
+        border: 1px solid rgba(255,255,255,0.14);
+    }
+
+.mini-insight-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 14px;
+}
+
+    .mini-insight-grid div {
+        padding: 14px;
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 16px;
+        background: rgba(255,255,255,0.045);
+    }
+
+    .mini-insight-grid span,
+    .mini-insight-grid strong {
+        display: block;
+    }
+
+    .mini-insight-grid span {
+        color: #aeb5d6;
+        font-size: 0.78rem;
+    }
+
+    .mini-insight-grid strong {
+        margin-top: 6px;
+        font-size: 0.95rem;
+    }
+
+.invoice-toolbar {
+    width: min(100%, 760px);
+    margin-bottom: 18px;
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.invoice-footer-note {
+    margin-top: 24px;
+    padding-top: 18px;
+    border-top: 1px solid #d9ddec;
+}
+
+    .invoice-footer-note p {
+        margin: 0;
+        color: #71758b;
+        line-height: 1.7;
+    }
+
+@media (max-width: 780px) {
+    .studio-command-bar,
+    .studio-action-row,
+    .mini-insight-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .invoice-toolbar {
+        align-items: stretch;
+        flex-direction: column;
+    }
+}
+
+/* Print mode: invoice only */
+@media print {
+    body {
+        background: #fff !important;
+    }
+
+    .studio-hero,
+    .studio-section:not(.print-section),
+    .invoice-toolbar {
+        display: none !important;
+    }
+
+    .studio-demo-page {
+        background: #fff !important;
+        color: #111 !important;
+    }
+
+    .print-section {
+        width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .invoice-preview {
+        border: 0 !important;
+        box-shadow: none !important;
+        background: #fff !important;
+        padding: 0 !important;
+    }
+
+    .invoice-paper {
+        width: 100% !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+    }
+}
