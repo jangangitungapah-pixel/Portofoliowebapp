@@ -1,0 +1,16 @@
+{
+  "name": "Marsic AI Web App Builder Portfolio",
+  "short_name": "Marsic AI Lab",
+  "description": "Portfolio AI-assisted web app builder yang menampilkan landing page, studio management demo, dan admin dashboard demo.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#05050b",
+  "theme_color": "#43f7ff",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "128x128",
+      "type": "image/svg+xml"
+    }
+  ]
+}
