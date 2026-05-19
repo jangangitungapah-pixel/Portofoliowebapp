@@ -4,14 +4,17 @@
 <PageTitle>AI Web App Builder Portfolio</PageTitle>
 
 <main class="portfolio-page">
-    <section class="hero-section" id="home">
+    <section class="hero-section hero-youth" id="home">
+        <div class="noise-layer"></div>
+        <div class="mouse-glow"></div>
         <div class="hero-bg-orb hero-bg-orb-one"></div>
         <div class="hero-bg-orb hero-bg-orb-two"></div>
+        <div class="hero-mesh"></div>
 
-        <nav class="landing-nav">
+        <nav class="landing-nav nav-youth" data-aos="fade-down">
             <a class="brand" href="#home" aria-label="Back to home">
-                <span class="brand-mark">AI</span>
-                <span class="brand-text">WebApp Builder</span>
+                <span class="brand-mark">M</span>
+                <span class="brand-text">Marsic AI Lab</span>
             </a>
 
             <div class="nav-links">
@@ -23,114 +26,153 @@
             </div>
         </nav>
 
-        <div class="hero-grid">
-            <div class="hero-copy">
-                <div class="eyebrow">
-                    <span class="pulse-dot"></span>
-                    AI-assisted web app creator
+        <div class="hero-grid hero-youth-grid">
+            <div class="hero-copy" data-aos="fade-right">
+                <div class="creator-chip">
+                    <span class="live-dot"></span>
+                    Portfolio mode: AI builder, bukan coder template-an
                 </div>
 
-                <h1>
-                    Gue bantu bikin
-                    <span>web app modern</span>
-                    dengan workflow AI.
+                <h1 class="hero-title-youth">
+                    Gue bikin web app dengan
+                    <span id="typed-role" class="typed-role">AI Web App Builder</span>
                 </h1>
 
-                <p class="hero-description">
-                    Portfolio ini dibuat untuk nunjukin cara gue membangun website, landing page,
-                    dashboard, invoice system, booking app, dan prototype digital dengan bantuan AI,
-                    automation, prompt engineering, dan visual direction yang rapi.
+                <p class="hero-description hero-description-youth">
+                    Gue orang awam yang suka banget ngebangun website dan web app pakai AI.
+                    Fokus gue ada di prompt direction, UI taste, workflow automation, testing,
+                    dan nge-polish hasil AI sampai kelihatan kayak produk digital beneran.
                 </p>
 
                 <div class="hero-actions">
-                    <a class="btn-primary" href="#demo">
+                    <a class="btn-primary btn-youth" href="#demo" data-magnetic>
                         Lihat Demo App
                         <span>→</span>
                     </a>
 
-                    <a class="btn-secondary" href="#contact">
-                        Diskusi Project
+                    <a class="btn-secondary btn-youth-outline" href="#contact" data-magnetic>
+                        Ajak Kolaborasi
                     </a>
                 </div>
 
-                <div class="hero-stats" aria-label="Portfolio highlights">
-                    <div>
-                        <strong>AI-first</strong>
-                        <span>Workflow</span>
+                <div class="tech-stack-strip" aria-label="Tech and workflow stack">
+                    <span>Blazor</span>
+                    <span>AI Prompting</span>
+                    <span>UI Direction</span>
+                    <span>Automation</span>
+                    <span>Prototype</span>
+                </div>
+
+                <div class="hero-stats hero-stats-youth">
+                    <div data-tilt-card>
+                        <strong>01</strong>
+                        <span>Ide → Prototype</span>
                     </div>
-                    <div>
+                    <div data-tilt-card>
+                        <strong>AI</strong>
+                        <span>Build Partner</span>
+                    </div>
+                    <div data-tilt-card>
                         <strong>Fast</strong>
-                        <span>Prototype</span>
-                    </div>
-                    <div>
-                        <strong>No-code+</strong>
-                        <span>Mindset</span>
+                        <span>Iterasi Cepat</span>
                     </div>
                 </div>
             </div>
 
-            <div class="hero-showcase" aria-label="Web app preview">
-                <div class="browser-card">
-                    <div class="browser-topbar">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        <p>portfolio.ai-builder.app</p>
-                    </div>
-
-                    <div class="dashboard-preview">
-                        <div class="preview-sidebar">
-                            <div class="mini-logo"></div>
+            <div class="hero-showcase hero-showcase-youth" data-aos="zoom-in-left">
+                <div class="creator-console" data-tilt-card>
+                    <div class="console-topbar">
+                        <div>
                             <span></span>
                             <span></span>
                             <span></span>
                         </div>
+                        <p>marsic-ai-lab.dev</p>
+                    </div>
 
-                        <div class="preview-content">
-                            <div class="preview-header">
-                                <div>
-                                    <p>AI Project Dashboard</p>
-                                    <h3>Launch Control</h3>
-                                </div>
-                                <span class="status-pill">Live Preview</span>
-                            </div>
+                    <div class="console-body">
+                        <div class="console-command">
+                            <span>prompt://</span>
+                            <p>build landing page modern untuk AI web app creator</p>
+                        </div>
 
-                            <div class="preview-cards">
-                                <div class="preview-card active">
-                                    <small>Landing Page</small>
-                                    <strong>92%</strong>
-                                </div>
-                                <div class="preview-card">
-                                    <small>Automation</small>
-                                    <strong>18 flow</strong>
-                                </div>
-                                <div class="preview-card">
-                                    <small>UI Polish</small>
-                                    <strong>Sharp</strong>
+                        <div class="console-grid">
+                            <div class="console-card big">
+                                <small>Current build</small>
+                                <strong>Portfolio Landing</strong>
+                                <div class="progress-line">
+                                    <span style="width: 88%"></span>
                                 </div>
                             </div>
 
-                            <div class="preview-chart">
-                                <span style="height: 42%"></span>
-                                <span style="height: 66%"></span>
-                                <span style="height: 48%"></span>
-                                <span style="height: 82%"></span>
-                                <span style="height: 58%"></span>
-                                <span style="height: 92%"></span>
+                            <div class="console-card">
+                                <small>Vibe</small>
+                                <strong>Neon Glass</strong>
+                            </div>
+
+                            <div class="console-card">
+                                <small>Status</small>
+                                <strong>Polished</strong>
+                            </div>
+                        </div>
+
+                        <div class="mini-preview">
+                            <div class="mini-sidebar">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+
+                            <div class="mini-main">
+                                <div class="mini-hero"></div>
+                                <div class="mini-row">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                                <div class="mini-chart">
+                                    <i style="height: 46%"></i>
+                                    <i style="height: 78%"></i>
+                                    <i style="height: 62%"></i>
+                                    <i style="height: 90%"></i>
+                                    <i style="height: 54%"></i>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="floating-note note-one">
+                <div class="floating-note note-one glass-badge">
                     <strong>Prompt</strong>
-                    <span>→ UI direction</span>
+                    <span>direction</span>
                 </div>
 
-                <div class="floating-note note-two">
+                <div class="floating-note note-two glass-badge">
                     <strong>AI</strong>
-                    <span>→ Code generation</span>
+                    <span>execution</span>
                 </div>
+
+                <div class="floating-note note-three glass-badge">
+                    <strong>Human</strong>
+                    <span>taste</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="marquee-panel" data-aos="fade-up">
+            <div class="marquee-track">
+                <span>Landing Page</span>
+                <span>Dashboard UI</span>
+                <span>Booking App</span>
+                <span>Invoice System</span>
+                <span>AI Workflow</span>
+                <span>Prototype MVP</span>
+                <span>Landing Page</span>
+                <span>Dashboard UI</span>
+                <span>Booking App</span>
+                <span>Invoice System</span>
+                <span>AI Workflow</span>
+                <span>Prototype MVP</span>
             </div>
         </div>
     </section>
@@ -142,7 +184,7 @@
         </div>
 
         <div class="about-grid">
-            <article class="glass-card about-card-large">
+            <article class="glass-card about-card-large" data-aos="fade-up" data-tilt-card>
                 <h3>Posisi gue</h3>
                 <p>
                     Gue orang awam yang belajar bikin web app lewat AI. Kekuatan gue ada di cara
@@ -151,19 +193,19 @@
                 </p>
             </article>
 
-            <article class="glass-card">
+            <article class="glass-card" data-aos="fade-up" data-tilt-card>
                 <span class="card-icon">⚡</span>
                 <h3>Cepat bikin prototype</h3>
                 <p>Dari ide mentah jadi tampilan awal yang bisa dicoba, dipresentasikan, dan dikembangkan.</p>
             </article>
 
-            <article class="glass-card">
+            <article class="glass-card" data-aos="fade-up" data-tilt-card>
                 <span class="card-icon">🎨</span>
                 <h3>Visual direction</h3>
                 <p>Landing page, dashboard, invoice, company profile, dan UI modern dengan rasa brand yang kuat.</p>
             </article>
 
-            <article class="glass-card">
+            <article class="glass-card" data-aos="fade-up" data-tilt-card>
                 <span class="card-icon">🤖</span>
                 <h3>AI workflow</h3>
                 <p>Menggunakan AI untuk generate, refactor, bikin konten, bantu desain, dan mempercepat produksi.</p>
@@ -178,25 +220,25 @@
         </div>
 
         <div class="service-grid">
-            <article class="service-card">
+            <article class="service-card" data-aos="fade-up" data-tilt-card>
                 <span>01</span>
                 <h3>Landing Page Bisnis</h3>
                 <p>Halaman promosi modern untuk jasa, studio, UMKM, personal brand, event, atau produk digital.</p>
             </article>
 
-            <article class="service-card">
+            <article class="service-card" data-aos="fade-up" data-tilt-card>
                 <span>02</span>
                 <h3>Web App Prototype</h3>
                 <p>Prototype aplikasi seperti booking studio, invoice generator, dashboard admin, dan katalog layanan.</p>
             </article>
 
-            <article class="service-card">
+            <article class="service-card" data-aos="fade-up" data-tilt-card>
                 <span>03</span>
                 <h3>Dashboard & Admin UI</h3>
                 <p>Tampilan panel manajemen data yang rapi, informatif, dan mudah dipahami oleh user non-teknis.</p>
             </article>
 
-            <article class="service-card">
+            <article class="service-card" data-aos="fade-up" data-tilt-card>
                 <span>04</span>
                 <h3>AI Content System</h3>
                 <p>Bantu susun copywriting, struktur halaman, nama fitur, flow aplikasi, dan presentasi produk.</p>
@@ -303,7 +345,7 @@
         </div>
 
         <div class="project-grid">
-            <article class="project-card featured-project">
+            <article class="project-card featured-project" data-aos="fade-up" data-tilt-card>
                 <div class="project-meta">
                     <span>Featured</span>
                     <span>Blazor Web App</span>
@@ -316,7 +358,7 @@
                 <a href="#contact">Bangun versi lengkap →</a>
             </article>
 
-            <article class="project-card">
+            <article class="project-card" data-aos="fade-up" data-tilt-card>
                 <div class="project-meta">
                     <span>Prototype</span>
                     <span>Invoice</span>
@@ -325,7 +367,7 @@
                 <p>Generate invoice modern untuk jasa, rental, studio, dan UMKM.</p>
             </article>
 
-            <article class="project-card">
+            <article class="project-card" data-aos="fade-up" data-tilt-card>
                 <div class="project-meta">
                     <span>Dashboard</span>
                     <span>Admin UI</span>
@@ -343,7 +385,7 @@
         </div>
 
         <div class="timeline">
-            <div class="timeline-item">
+            <div class="timeline-item" data-aos="fade-up">
                 <span>1</span>
                 <div>
                     <h3>Brief & ide</h3>
@@ -351,7 +393,7 @@
                 </div>
             </div>
 
-            <div class="timeline-item">
+            <div class="timeline-item" data-aos="fade-up">
                 <span>2</span>
                 <div>
                     <h3>AI prompt direction</h3>
@@ -359,7 +401,7 @@
                 </div>
             </div>
 
-            <div class="timeline-item">
+            <div class="timeline-item" data-aos="fade-up">
                 <span>3</span>
                 <div>
                     <h3>Build & polish</h3>
@@ -367,7 +409,7 @@
                 </div>
             </div>
 
-            <div class="timeline-item">
+            <div class="timeline-item" data-aos="fade-up">
                 <span>4</span>
                 <div>
                     <h3>Deploy-ready</h3>
