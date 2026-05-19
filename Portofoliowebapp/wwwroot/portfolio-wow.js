@@ -102,4 +102,12 @@
     window.portfolioWow = {
         init: initPortfolioWow
     };
+
+    window.portfolioPrintInvoice = function () {
+        setTimeout(function () {
+            window.print();
+        }, 150);
+
+        return true;
+    };
 })();

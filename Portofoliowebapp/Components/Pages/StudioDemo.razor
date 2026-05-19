@@ -699,8 +699,25 @@
             "info"
         );
 
-        await JS.InvokeVoidAsync("window.print");
+        try
+        {
+            await JS.InvokeVoidAsync("portfolioPrintInvoice");
+        }
+        catch (TaskCanceledException)
+        {
+            // Print dialog can cancel JS interop in Blazor Server.
+            // Safe to ignore because the browser may already be opening the print dialog.
+        }
+        catch (JSException)
+        {
+            await ShowToast(
+                "Print gagal",
+                "Browser gagal membuka print dialog. Coba klik Print Invoice lagi.",
+                "warning"
+            );
+        }
     }
+
     private async Task CopyInvoiceSummary()
     {
         var summary = $"""
