@@ -4192,3 +4192,530 @@ body {
             line-height: 1.45 !important;
         }
 }
+/* ================================
+   LANDING PAGE ULTRA POLISH
+   Hover states, spotlight, motion, nav active
+   ================================ */
+
+:root {
+    --scroll-progress: 0;
+    --spot-x: 50%;
+    --spot-y: 50%;
+}
+
+/* Scroll progress */
+.scroll-progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10000;
+    width: 100%;
+    height: 3px;
+    transform: scaleX(var(--scroll-progress));
+    transform-origin: left center;
+    background: linear-gradient(90deg, #43f7ff, #ff3df2, #c6ff3d);
+    box-shadow: 0 0 22px rgba(67, 247, 255, 0.5);
+    pointer-events: none;
+}
+
+/* Better text selection */
+::selection {
+    color: #05050b;
+    background: #c6ff3d;
+}
+
+/* Keyboard accessibility */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+    outline: 3px solid rgba(67, 247, 255, 0.55);
+    outline-offset: 4px;
+}
+
+/* Navigation polish */
+.nav-youth {
+    transition: transform 0.28s ease, background 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;
+}
+
+    .nav-youth:hover {
+        transform: translateY(-2px);
+        border-color: rgba(67, 247, 255, 0.28);
+        background: rgba(7, 8, 18, 0.72);
+        box-shadow: 0 18px 70px rgba(0, 0, 0, 0.34);
+    }
+
+.brand-mark {
+    transition: transform 0.28s ease, box-shadow 0.28s ease, filter 0.28s ease;
+}
+
+.brand:hover .brand-mark {
+    transform: rotate(-8deg) scale(1.08);
+    filter: saturate(1.25);
+    box-shadow: 0 18px 46px rgba(67, 247, 255, 0.34);
+}
+
+.nav-links a {
+    position: relative;
+    padding: 8px 0;
+}
+
+    .nav-links a::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 3px;
+        width: 100%;
+        height: 2px;
+        border-radius: 999px;
+        transform: scaleX(0);
+        transform-origin: right center;
+        background: linear-gradient(90deg, #43f7ff, #c6ff3d);
+        transition: transform 0.24s ease;
+    }
+
+    .nav-links a:hover::after,
+    .nav-links a.active::after {
+        transform: scaleX(1);
+        transform-origin: left center;
+    }
+
+    .nav-links a.active {
+        color: #f8f9ff;
+    }
+
+/* Hero polish */
+.creator-chip {
+    animation: chipFloat 4.8s ease-in-out infinite;
+}
+
+@keyframes chipFloat {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+.hero-title-youth {
+    text-wrap: balance;
+}
+
+.hero-description-youth {
+    text-wrap: pretty;
+}
+
+.typed-role {
+    filter: drop-shadow(0 16px 34px rgba(124, 60, 255, 0.18));
+}
+
+/* Button hover/focus refinement */
+.btn-primary,
+.btn-secondary,
+.demo-preview-actions a,
+.demo-cta-card strong,
+.project-card a {
+    position: relative;
+    overflow: hidden;
+}
+
+    .btn-primary::before,
+    .btn-secondary::before,
+    .demo-preview-actions a::before,
+    .demo-cta-card strong::before {
+        content: "";
+        position: absolute;
+        inset: -60%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+        transform: translateX(-80%) rotate(14deg);
+        transition: transform 0.65s ease;
+        pointer-events: none;
+    }
+
+    .btn-primary:hover::before,
+    .btn-secondary:hover::before,
+    .demo-preview-actions a:hover::before,
+    .demo-cta-card:hover strong::before {
+        transform: translateX(80%) rotate(14deg);
+    }
+
+/* Unified card hover and spotlight */
+:where( .glass-card, .service-card, .project-card, .timeline-item, .demo-cta-card, .app-window, .creator-console, .contact-section, .hero-stats-youth div, .demo-tab ) {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    transition: border-color 0.28s ease, box-shadow 0.28s ease, background 0.28s ease, transform 0.28s ease, filter 0.28s ease;
+}
+
+    :where( .glass-card, .service-card, .project-card, .timeline-item, .demo-cta-card, .app-window, .creator-console, .contact-section, .hero-stats-youth div, .demo-tab )::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        opacity: 0;
+        pointer-events: none;
+        background: radial-gradient( 420px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgba(67, 247, 255, 0.18), rgba(255, 61, 242, 0.08) 38%, transparent 66% );
+        transition: opacity 0.28s ease;
+    }
+
+    :where( .glass-card, .service-card, .project-card, .timeline-item, .demo-cta-card, .app-window, .creator-console, .contact-section, .hero-stats-youth div, .demo-tab ):hover::after {
+        opacity: 1;
+    }
+
+    :where( .glass-card, .service-card, .project-card, .timeline-item, .demo-cta-card, .app-window, .creator-console, .contact-section, .hero-stats-youth div, .demo-tab ) > * {
+        position: relative;
+        z-index: 2;
+    }
+
+:where( .glass-card, .service-card, .project-card, .timeline-item, .demo-cta-card, .app-window, .creator-console, .contact-section, .hero-stats-youth div ):hover {
+    border-color: rgba(67, 247, 255, 0.36);
+    box-shadow: 0 30px 90px rgba(0,0,0,0.42), 0 0 0 1px rgba(67, 247, 255, 0.08);
+}
+
+:where( .glass-card, .service-card, .project-card, .timeline-item, .demo-cta-card, .app-window, .contact-section ):not([data-tilt-card]):hover {
+    transform: translateY(-7px);
+}
+
+/* Card icon micro animation */
+.card-icon,
+.demo-cta-icon,
+.timeline-item > span {
+    transition: transform 0.28s ease, box-shadow 0.28s ease, filter 0.28s ease;
+}
+
+.glass-card:hover .card-icon,
+.demo-cta-card:hover .demo-cta-icon,
+.timeline-item:hover > span {
+    transform: rotate(-6deg) scale(1.08);
+    filter: saturate(1.25);
+    box-shadow: 0 18px 44px rgba(67,247,255,0.18);
+}
+
+/* Service cards feel more premium */
+.service-card span {
+    transition: color 0.25s ease, transform 0.25s ease;
+}
+
+.service-card:hover span {
+    color: #43f7ff;
+    transform: translateY(-2px);
+}
+
+.service-card h3,
+.project-card h3,
+.glass-card h3,
+.timeline-item h3 {
+    transition: color 0.25s ease;
+}
+
+.service-card:hover h3,
+.project-card:hover h3,
+.glass-card:hover h3,
+.timeline-item:hover h3 {
+    color: #ffffff;
+}
+
+/* Console animations */
+.console-command {
+    transition: border-color 0.25s ease, background 0.25s ease;
+}
+
+.creator-console:hover .console-command {
+    border-color: rgba(198,255,61,0.25);
+    background: rgba(0,0,0,0.31);
+}
+
+.progress-line span {
+    position: relative;
+    overflow: hidden;
+    animation: progressPulse 2.7s ease-in-out infinite;
+}
+
+    .progress-line span::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.65), transparent);
+        animation: progressShine 2.2s ease-in-out infinite;
+    }
+
+@keyframes progressPulse {
+    0%, 100% {
+        filter: saturate(1);
+    }
+
+    50% {
+        filter: saturate(1.7) brightness(1.1);
+    }
+}
+
+@keyframes progressShine {
+    from {
+        transform: translateX(-100%);
+    }
+
+    to {
+        transform: translateX(100%);
+    }
+}
+
+/* Mini chart / preview breathing motion */
+.mini-chart i,
+.preview-chart span {
+    animation: barBreath 3.2s ease-in-out infinite;
+}
+
+    .mini-chart i:nth-child(2),
+    .preview-chart span:nth-child(2) {
+        animation-delay: 0.15s;
+    }
+
+    .mini-chart i:nth-child(3),
+    .preview-chart span:nth-child(3) {
+        animation-delay: 0.3s;
+    }
+
+    .mini-chart i:nth-child(4),
+    .preview-chart span:nth-child(4) {
+        animation-delay: 0.45s;
+    }
+
+    .mini-chart i:nth-child(5),
+    .preview-chart span:nth-child(5) {
+        animation-delay: 0.6s;
+    }
+
+@keyframes barBreath {
+    0%, 100% {
+        filter: brightness(1);
+        transform: scaleY(1);
+    }
+
+    50% {
+        filter: brightness(1.35);
+        transform: scaleY(1.04);
+    }
+}
+
+/* Floating notes smoother */
+.floating-note {
+    animation: floatBadge 5.2s ease-in-out infinite;
+}
+
+.note-two {
+    animation-delay: 0.8s;
+}
+
+.note-three {
+    animation-delay: 1.4s;
+}
+
+@keyframes floatBadge {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+/* Marquee UX */
+.marquee-panel:hover .marquee-track {
+    animation-play-state: paused;
+}
+
+.marquee-track span {
+    transition: color 0.25s ease, text-shadow 0.25s ease;
+}
+
+.marquee-panel:hover .marquee-track span {
+    color: #ffffff;
+    text-shadow: 0 0 20px rgba(67,247,255,0.25);
+}
+
+/* Demo tabs better interaction */
+.demo-tab {
+    position: relative;
+}
+
+    .demo-tab.active {
+        box-shadow: inset 0 0 0 1px rgba(67,247,255,0.18);
+    }
+
+    .demo-tab:hover {
+        transform: translateX(4px);
+    }
+
+    .demo-tab.active span {
+        color: #c6ff3d;
+    }
+
+/* Demo CTA card stronger hover */
+.demo-cta-card h3,
+.demo-cta-card p,
+.demo-cta-card strong {
+    transition: transform 0.25s ease;
+}
+
+.demo-cta-card:hover h3 {
+    transform: translateX(4px);
+}
+
+.demo-cta-card:hover strong {
+    transform: translateY(-2px);
+}
+
+/* Project card link arrow motion */
+.project-card a {
+    transition: color 0.22s ease, transform 0.22s ease;
+}
+
+.project-card:hover a {
+    color: #c6ff3d;
+    transform: translateX(4px);
+}
+
+/* Contact CTA glow */
+.contact-section {
+    transition: transform 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;
+}
+
+    .contact-section:hover {
+        border-color: rgba(198,255,61,0.28);
+        box-shadow: 0 34px 110px rgba(0,0,0,0.48), 0 0 80px rgba(67,247,255,0.08);
+    }
+
+    /* Section heading subtle reveal feeling */
+    .section-heading p,
+    .contact-section p {
+        position: relative;
+        width: fit-content;
+    }
+
+        .section-heading p::after,
+        .contact-section p::after {
+            content: "";
+            position: absolute;
+            left: calc(100% + 10px);
+            top: 50%;
+            width: 42px;
+            height: 2px;
+            border-radius: 999px;
+            transform: translateY(-50%);
+            background: linear-gradient(90deg, #43f7ff, transparent);
+        }
+
+.section-heading h2 {
+    text-wrap: balance;
+}
+
+/* Mobile polish */
+@media (max-width: 760px) {
+    .demo-tab:hover {
+        transform: none;
+    }
+
+    .section-heading p::after,
+    .contact-section p::after {
+        display: none;
+    }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+    }
+
+    .scroll-progress-bar {
+        display: none;
+    }
+}
+/* ================================
+   UNIVERSAL FLOATING CARD HOVER
+   Makes all cards lift like live prototype
+   ================================ */
+
+@media (hover: hover) and (pointer: fine) {
+    :where( .glass-card, .service-card, .project-card, .timeline-item, .demo-cta-card, .app-window, .creator-console, .hero-stats-youth div, .demo-tab, .preview-card, .console-card, .floating-note, .contact-section ) {
+        translate: 0 0;
+        transition: translate 0.28s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.28s ease, box-shadow 0.28s ease, background 0.28s ease, filter 0.28s ease;
+        will-change: translate, box-shadow;
+    }
+
+    :where( .glass-card, .service-card, .project-card, .timeline-item, .demo-cta-card, .app-window, .creator-console, .hero-stats-youth div, .preview-card, .console-card, .contact-section ):hover {
+        translate: 0 -10px;
+        border-color: rgba(67, 247, 255, 0.42);
+        box-shadow: 0 34px 100px rgba(0, 0, 0, 0.46), 0 0 0 1px rgba(67, 247, 255, 0.12), 0 0 60px rgba(67, 247, 255, 0.08);
+    }
+
+    .demo-tab:hover {
+        translate: 6px -4px;
+    }
+
+    .floating-note:hover {
+        translate: 0 -7px;
+    }
+
+    .demo-cta-card:hover {
+        translate: 0 -12px;
+    }
+
+    .project-card:hover,
+    .service-card:hover,
+    .glass-card:hover {
+        filter: saturate(1.08);
+    }
+}
+/* ================================
+   SMOOTHER FLOATING HOVER FINAL FIX
+   ================================ */
+
+@media (hover: hover) and (pointer: fine) {
+    :where( .glass-card, .service-card, .project-card, .timeline-item, .demo-cta-card, .app-window, .creator-console, .hero-stats-youth div, .demo-tab, .preview-card, .console-card, .floating-note, .contact-section ) {
+        translate: 0 0;
+        backface-visibility: hidden;
+        transform-style: preserve-3d;
+        will-change: translate, transform, box-shadow, border-color, filter;
+        transition: translate 520ms cubic-bezier(0.16, 1, 0.3, 1), transform 520ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 520ms cubic-bezier(0.16, 1, 0.3, 1), border-color 420ms ease, background 420ms ease, filter 420ms ease;
+    }
+
+    /* Matikan transform hover lama supaya nggak dobel dengan translate */
+    :where( .glass-card, .service-card, .project-card, .timeline-item, .app-window, .contact-section, .demo-tab ):not([data-tilt-card]):hover {
+        transform: none;
+    }
+
+    :where( .glass-card, .service-card, .project-card, .timeline-item, .demo-cta-card, .app-window, .creator-console, .hero-stats-youth div, .preview-card, .console-card, .contact-section ):hover {
+        translate: 0 -8px;
+        border-color: rgba(67, 247, 255, 0.42);
+        box-shadow: 0 28px 80px rgba(0, 0, 0, 0.42), 0 0 0 1px rgba(67, 247, 255, 0.12), 0 0 54px rgba(67, 247, 255, 0.075);
+    }
+
+    .demo-cta-card:hover {
+        translate: 0 -10px;
+    }
+
+    .demo-tab:hover {
+        translate: 4px -3px;
+        transform: none;
+    }
+
+    .floating-note:hover {
+        translate: 0 -6px;
+    }
+
+    .project-card:hover,
+    .service-card:hover,
+    .glass-card:hover {
+        filter: saturate(1.06) brightness(1.03);
+    }
+}

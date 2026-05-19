@@ -111,3 +111,125 @@
         return true;
     };
 })();
+(function () {
+    function initScrollProgress() {
+        let bar = document.querySelector(".scroll-progress-bar");
+
+        if (!bar) {
+            bar = document.createElement("div");
+            bar.className = "scroll-progress-bar";
+            document.body.prepend(bar);
+        }
+
+        if (window.__landingScrollProgressReady) return;
+        window.__landingScrollProgressReady = true;
+
+        let ticking = false;
+
+        function updateProgress() {
+            const scrollTop = window.scrollY || document.documentElement.scrollTop;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = docHeight <= 0 ? 0 : Math.min(scrollTop / docHeight, 1);
+
+            document.documentElement.style.setProperty("--scroll-progress", progress.toString());
+            ticking = false;
+        }
+
+        window.addEventListener("scroll", function () {
+            if (ticking) return;
+
+            ticking = true;
+            window.requestAnimationFrame(updateProgress);
+        }, { passive: true });
+
+        updateProgress();
+    }
+
+    function initSpotlightCards() {
+        const selector = [
+            ".glass-card",
+            ".service-card",
+            ".project-card",
+            ".timeline-item",
+            ".demo-cta-card",
+            ".app-window",
+            ".creator-console",
+            ".contact-section",
+            ".hero-stats-youth div",
+            ".demo-tab"
+        ].join(",");
+
+        document.querySelectorAll(selector).forEach(function (card) {
+            if (card.dataset.spotlightReady === "true") return;
+
+            card.dataset.spotlightReady = "true";
+
+            card.addEventListener("pointermove", function (event) {
+                const rect = card.getBoundingClientRect();
+                const x = event.clientX - rect.left;
+                const y = event.clientY - rect.top;
+
+                card.style.setProperty("--spot-x", x + "px");
+                card.style.setProperty("--spot-y", y + "px");
+            });
+
+            card.addEventListener("pointerleave", function () {
+                card.style.setProperty("--spot-x", "50%");
+                card.style.setProperty("--spot-y", "50%");
+            });
+        });
+    }
+
+    function initActiveNav() {
+        if (window.__landingActiveNavObserver) {
+            window.__landingActiveNavObserver.disconnect();
+        }
+
+        const sections = Array.from(document.querySelectorAll("section[id]"));
+        const navLinks = Array.from(document.querySelectorAll(".nav-links a"));
+
+        if (!sections.length || !navLinks.length) return;
+
+        function setActive(id) {
+            navLinks.forEach(function (link) {
+                const href = link.getAttribute("href") || "";
+                const isActive = href === "/#" + id || href === "#" + id;
+
+                link.classList.toggle("active", isActive);
+            });
+        }
+
+        const observer = new IntersectionObserver(function (entries) {
+            const visible = entries
+                .filter(function (entry) { return entry.isIntersecting; })
+                .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; })[0];
+
+            if (visible && visible.target.id) {
+                setActive(visible.target.id);
+            }
+        }, {
+            root: null,
+            threshold: [0.22, 0.35, 0.5],
+            rootMargin: "-20% 0px -55% 0px"
+        });
+
+        sections.forEach(function (section) {
+            observer.observe(section);
+        });
+
+        window.__landingActiveNavObserver = observer;
+    }
+
+    function initLandingPolish() {
+        initScrollProgress();
+        initSpotlightCards();
+        initActiveNav();
+    }
+
+    document.addEventListener("DOMContentLoaded", initLandingPolish);
+    document.addEventListener("enhancedload", initLandingPolish);
+
+    window.landingPolish = {
+        init: initLandingPolish
+    };
+})();
