@@ -1,0 +1,370 @@
+﻿@page "/studio-demo"
+@rendermode InteractiveServer
+
+<PageTitle>Studio Music Management Demo</PageTitle>
+
+<main class="studio-demo-page">
+    <section class="studio-hero">
+        <nav class="studio-demo-nav">
+            <a href="/" class="studio-back-link">← Back to Portfolio</a>
+            <span>37 Music Studio Demo</span>
+        </nav>
+
+        <div class="studio-hero-grid">
+            <div>
+                <p class="studio-kicker">Interactive Web App Demo</p>
+                <h1>Studio Music Management System</h1>
+                <p class="studio-lead">
+                    Demo aplikasi pengelolaan studio musik: booking jadwal, paket sewa,
+                    status pembayaran, invoice, customer, dan dashboard owner.
+                </p>
+
+                <div class="studio-hero-actions">
+                    <a href="#booking" class="studio-primary-btn">Coba Booking</a>
+                    <a href="#invoice" class="studio-secondary-btn">Lihat Invoice</a>
+                </div>
+            </div>
+
+            <div class="studio-live-card">
+                <div class="studio-live-header">
+                    <div>
+                        <small>Today Overview</small>
+                        <strong>@TodayBookings booking</strong>
+                    </div>
+                    <span>Live Demo</span>
+                </div>
+
+                <div class="studio-equalizer">
+                    <i style="height: 45%"></i>
+                    <i style="height: 70%"></i>
+                    <i style="height: 38%"></i>
+                    <i style="height: 88%"></i>
+                    <i style="height: 62%"></i>
+                    <i style="height: 95%"></i>
+                    <i style="height: 54%"></i>
+                    <i style="height: 76%"></i>
+                </div>
+
+                <div class="studio-live-footer">
+                    <span>Revenue estimate</span>
+                    <strong>@FormatRupiah(TotalRevenue)</strong>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="studio-section">
+        <div class="studio-stats-grid">
+            <article class="studio-stat-card">
+                <span>Total Booking</span>
+                <strong>@Bookings.Count</strong>
+                <p>Booking aktif bulan ini</p>
+            </article>
+
+            <article class="studio-stat-card">
+                <span>Revenue</span>
+                <strong>@FormatRupiah(TotalRevenue)</strong>
+                <p>Estimasi dari booking demo</p>
+            </article>
+
+            <article class="studio-stat-card">
+                <span>Paid</span>
+                <strong>@PaidBookings</strong>
+                <p>Booking sudah lunas</p>
+            </article>
+
+            <article class="studio-stat-card">
+                <span>Pending</span>
+                <strong>@PendingBookings</strong>
+                <p>Menunggu pembayaran</p>
+            </article>
+        </div>
+    </section>
+
+    <section class="studio-section studio-dashboard-grid">
+        <div class="studio-panel">
+            <div class="studio-panel-header">
+                <div>
+                    <p>Booking Schedule</p>
+                    <h2>Jadwal Studio</h2>
+                </div>
+                <span>@SelectedDate.ToString("dd MMM yyyy")</span>
+            </div>
+
+            <div class="booking-list">
+                @foreach (var booking in Bookings)
+                {
+                    <button class="@GetBookingClass(booking)"
+                            @onclick="() => SelectBooking(booking)">
+                        <div>
+                            <strong>@booking.CustomerName</strong>
+                            <span>@booking.PackageName • @booking.Time</span>
+                        </div>
+
+                        <em class="@GetStatusClass(booking.Status)">
+                            @booking.Status
+                        </em>
+                    </button>
+                }
+            </div>
+        </div>
+
+        <div class="studio-panel selected-booking-card">
+            <div class="studio-panel-header">
+                <div>
+                    <p>Selected Booking</p>
+                    <h2>@SelectedBooking.CustomerName</h2>
+                </div>
+                <span class="@GetStatusClass(SelectedBooking.Status)">
+                    @SelectedBooking.Status
+                </span>
+            </div>
+
+            <div class="selected-booking-body">
+                <div>
+                    <span>Paket</span>
+                    <strong>@SelectedBooking.PackageName</strong>
+                </div>
+
+                <div>
+                    <span>Jam</span>
+                    <strong>@SelectedBooking.Time</strong>
+                </div>
+
+                <div>
+                    <span>Durasi</span>
+                    <strong>@SelectedBooking.Duration jam</strong>
+                </div>
+
+                <div>
+                    <span>Total</span>
+                    <strong>@FormatRupiah(SelectedBooking.Price)</strong>
+                </div>
+            </div>
+
+            <div class="studio-note">
+                <strong>Catatan:</strong>
+                @SelectedBooking.Note
+            </div>
+        </div>
+    </section>
+
+    <section class="studio-section studio-dashboard-grid" id="booking">
+        <div class="studio-panel">
+            <div class="studio-panel-header">
+                <div>
+                    <p>Quick Booking</p>
+                    <h2>Tambah Booking Demo</h2>
+                </div>
+            </div>
+
+            <div class="booking-form">
+                <label>
+                    Nama Customer
+                    <input @bind="NewCustomerName" placeholder="Contoh: Rama Band" />
+                </label>
+
+                <label>
+                    Paket Studio
+                    <select @bind="SelectedPackageId">
+                        @foreach (var package in Packages)
+                        {
+                            <option value="@package.Id">@package.Name - @FormatRupiah(package.Price)</option>
+                        }
+                    </select>
+                </label>
+
+                <label>
+                    Jam Booking
+                    <input @bind="NewBookingTime" placeholder="Contoh: 19:00 - 21:00" />
+                </label>
+
+                <label>
+                    Catatan
+                    <textarea @bind="NewNote" placeholder="Contoh: Bawa drummer tambahan, butuh 2 mic"></textarea>
+                </label>
+
+                <button class="studio-primary-btn full" @onclick="AddBooking">
+                    Tambah Booking
+                </button>
+            </div>
+        </div>
+
+        <div class="studio-panel">
+            <div class="studio-panel-header">
+                <div>
+                    <p>Studio Packages</p>
+                    <h2>Paket Sewa</h2>
+                </div>
+            </div>
+
+            <div class="package-grid">
+                @foreach (var package in Packages)
+                {
+                    <article class="package-card">
+                        <span>@package.Tag</span>
+                        <h3>@package.Name</h3>
+                        <strong>@FormatRupiah(package.Price)</strong>
+                        <p>@package.Description</p>
+                    </article>
+                }
+            </div>
+        </div>
+    </section>
+
+    <section class="studio-section" id="invoice">
+        <div class="studio-panel invoice-preview">
+            <div class="invoice-paper">
+                <div class="invoice-top">
+                    <div>
+                        <p>INVOICE</p>
+                        <h2>37 Music Studio</h2>
+                    </div>
+                    <span>#INV-37-@SelectedBooking.Id.ToString("000")</span>
+                </div>
+
+                <div class="invoice-info-grid">
+                    <div>
+                        <span>Bill To</span>
+                        <strong>@SelectedBooking.CustomerName</strong>
+                    </div>
+
+                    <div>
+                        <span>Date</span>
+                        <strong>@SelectedDate.ToString("dd MMM yyyy")</strong>
+                    </div>
+
+                    <div>
+                        <span>Status</span>
+                        <strong>@SelectedBooking.Status</strong>
+                    </div>
+                </div>
+
+                <div class="invoice-table">
+                    <div class="invoice-row head">
+                        <span>Layanan</span>
+                        <span>Durasi</span>
+                        <span>Total</span>
+                    </div>
+
+                    <div class="invoice-row">
+                        <span>@SelectedBooking.PackageName</span>
+                        <span>@SelectedBooking.Duration jam</span>
+                        <span>@FormatRupiah(SelectedBooking.Price)</span>
+                    </div>
+                </div>
+
+                <div class="invoice-total">
+                    <span>Grand Total</span>
+                    <strong>@FormatRupiah(SelectedBooking.Price)</strong>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+@code {
+    private DateTime SelectedDate { get; } = DateTime.Today;
+
+    private string NewCustomerName { get; set; } = string.Empty;
+    private string NewBookingTime { get; set; } = "19:00 - 21:00";
+    private string NewNote { get; set; } = string.Empty;
+    private int SelectedPackageId { get; set; } = 1;
+
+    private List<StudioPackage> Packages { get; } =
+    [
+        new(1, "Regular Session", 150000, "Basic", "Cocok untuk latihan band reguler dan jamming santai."),
+        new(2, "Recording Prep", 250000, "Popular", "Untuk latihan serius sebelum take recording atau live session."),
+        new(3, "Premium Night", 350000, "Pro", "Slot malam dengan setup lebih lengkap dan durasi fleksibel.")
+    ];
+
+    private List<BookingItem> Bookings { get; } =
+    [
+        new(1, "Rama Band", "Regular Session", "10:00 - 12:00", 2, 150000, "Paid", "Latihan reguler, butuh 1 mic tambahan."),
+        new(2, "Alya Project", "Recording Prep", "13:00 - 15:00", 2, 250000, "Pending", "Persiapan take vocal dan gitar."),
+        new(3, "Northside Kids", "Premium Night", "19:00 - 22:00", 3, 350000, "Paid", "Full band, butuh setup drum lebih awal."),
+        new(4, "Dika Solo", "Regular Session", "22:00 - 23:00", 1, 150000, "Pending", "Latihan gitar dan vocal monitoring.")
+    ];
+
+    private BookingItem SelectedBooking { get; set; } = default!;
+
+    private int TodayBookings => Bookings.Count;
+    private int PaidBookings => Bookings.Count(booking => booking.Status == "Paid");
+    private int PendingBookings => Bookings.Count(booking => booking.Status == "Pending");
+    private int TotalRevenue => Bookings.Sum(booking => booking.Price);
+
+    protected override void OnInitialized()
+    {
+        SelectedBooking = Bookings.First();
+    }
+
+    private void SelectBooking(BookingItem booking)
+    {
+        SelectedBooking = booking;
+    }
+
+    private void AddBooking()
+    {
+        var selectedPackage = Packages.First(package => package.Id == SelectedPackageId);
+
+        var customerName = string.IsNullOrWhiteSpace(NewCustomerName)
+            ? "New Customer"
+            : NewCustomerName.Trim();
+
+        var note = string.IsNullOrWhiteSpace(NewNote)
+            ? "Booking baru dari form demo."
+            : NewNote.Trim();
+
+        var booking = new BookingItem(
+            Bookings.Count + 1,
+            customerName,
+            selectedPackage.Name,
+            NewBookingTime,
+            2,
+            selectedPackage.Price,
+            "Pending",
+            note
+        );
+
+        Bookings.Insert(0, booking);
+        SelectedBooking = booking;
+
+        NewCustomerName = string.Empty;
+        NewBookingTime = "19:00 - 21:00";
+        NewNote = string.Empty;
+    }
+
+    private static string FormatRupiah(int value)
+    {
+        return $"Rp {value:N0}".Replace(",", ".");
+    }
+
+    private string GetBookingClass(BookingItem booking)
+    {
+        return booking.Id == SelectedBooking.Id ? "booking-item active" : "booking-item";
+    }
+
+    private static string GetStatusClass(string status)
+    {
+        return status == "Paid" ? "status-pill-demo paid" : "status-pill-demo pending";
+    }
+
+    private sealed record StudioPackage(
+        int Id,
+        string Name,
+        int Price,
+        string Tag,
+        string Description
+    );
+
+    private sealed record BookingItem(
+        int Id,
+        string CustomerName,
+        string PackageName,
+        string Time,
+        int Duration,
+        int Price,
+        string Status,
+        string Note
+    );
+}
