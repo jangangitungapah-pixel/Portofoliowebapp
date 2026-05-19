@@ -1,5 +1,7 @@
 ﻿@page "/studio-demo"
 @rendermode InteractiveServer
+@using Microsoft.JSInterop
+@inject IJSRuntime JS
 
 <PageTitle>Studio Music Management Demo</PageTitle>
 
@@ -22,6 +24,7 @@
                 <div class="studio-hero-actions">
                     <a href="#booking" class="studio-primary-btn">Coba Booking</a>
                     <a href="#invoice" class="studio-secondary-btn">Lihat Invoice</a>
+                    <a href="/studio-admin" class="studio-secondary-btn">Buka Admin Demo</a>
                 </div>
             </div>
 
@@ -46,7 +49,7 @@
                 </div>
 
                 <div class="studio-live-footer">
-                    <span>Revenue estimate</span>
+                    <span>Projected Revenue</span>
                     <strong>@FormatRupiah(TotalRevenue)</strong>
                 </div>
             </div>
@@ -62,14 +65,14 @@
             </article>
 
             <article class="studio-stat-card">
-                <span>Revenue</span>
+                <span>Projected Revenue</span>
                 <strong>@FormatRupiah(TotalRevenue)</strong>
-                <p>Estimasi dari booking demo</p>
+                <p>Tidak termasuk cancelled</p>
             </article>
 
             <article class="studio-stat-card">
-                <span>Paid</span>
-                <strong>@PaidBookings</strong>
+                <span>Paid Revenue</span>
+                <strong>@FormatRupiah(PaidRevenue)</strong>
                 <p>Booking sudah lunas</p>
             </article>
 
@@ -78,6 +81,28 @@
                 <strong>@PendingBookings</strong>
                 <p>Menunggu pembayaran</p>
             </article>
+        </div>
+    </section>
+
+    <section class="studio-section">
+        <div class="studio-command-bar">
+            <div>
+                <p>Booking Control</p>
+                <h2>Kelola Jadwal Studio</h2>
+            </div>
+
+            <div class="studio-search-wrap">
+                <input @bind="SearchQuery" @bind:event="oninput" placeholder="Search customer / paket..." />
+            </div>
+        </div>
+
+        <div class="studio-filter-row">
+            @foreach (var filter in StatusFilters)
+            {
+                <button class="@GetFilterClass(filter)" @onclick="() => SetFilter(filter)">
+                    @filter
+                </button>
+            }
         </div>
     </section>
 
@@ -92,19 +117,29 @@
             </div>
 
             <div class="booking-list">
-                @foreach (var booking in Bookings)
+                @if (!FilteredBookings.Any())
                 {
-                    <button class="@GetBookingClass(booking)"
-                            @onclick="() => SelectBooking(booking)">
-                        <div>
-                            <strong>@booking.CustomerName</strong>
-                            <span>@booking.PackageName • @booking.Time</span>
-                        </div>
+                    <div class="booking-empty">
+                        <strong>Booking nggak ketemu</strong>
+                        <p>Coba ganti keyword atau filter statusnya.</p>
+                    </div>
+                }
+                else
+                {
+                    @foreach (var booking in FilteredBookings)
+                    {
+                        <button class="@GetBookingClass(booking)"
+                                @onclick="() => SelectBooking(booking)">
+                            <div>
+                                <strong>@booking.CustomerName</strong>
+                                <span>@booking.PackageName • @booking.Time</span>
+                            </div>
 
-                        <em class="@GetStatusClass(booking.Status)">
-                            @booking.Status
-                        </em>
-                    </button>
+                            <em class="@GetStatusClass(booking.Status)">
+                                @booking.Status
+                            </em>
+                        </button>
+                    }
                 }
             </div>
         </div>
@@ -142,9 +177,27 @@
                 </div>
             </div>
 
+            <div class="studio-action-row">
+                <button class="studio-mini-btn paid" @onclick="MarkSelectedPaid">Mark Paid</button>
+                <button class="studio-mini-btn pending" @onclick="MarkSelectedPending">Set Pending</button>
+                <button class="studio-mini-btn cancelled" @onclick="CancelSelectedBooking">Cancel</button>
+                <button class="studio-mini-btn danger" @onclick="DeleteSelectedBooking">Delete</button>
+            </div>
+
             <div class="studio-note">
                 <strong>Catatan:</strong>
                 @SelectedBooking.Note
+            </div>
+
+            <div class="mini-insight-grid">
+                <div>
+                    <span>Invoice ID</span>
+                    <strong>#INV-37-@SelectedBooking.Id.ToString("000")</strong>
+                </div>
+                <div>
+                    <span>Payment</span>
+                    <strong>@SelectedBooking.Status</strong>
+                </div>
             </div>
         </div>
     </section>
@@ -212,8 +265,19 @@
         </div>
     </section>
 
-    <section class="studio-section" id="invoice">
+    <section class="studio-section print-section" id="invoice">
         <div class="studio-panel invoice-preview">
+            <div class="invoice-toolbar">
+                <div>
+                    <p>Invoice Preview</p>
+                    <h2>Preview tagihan booking terpilih</h2>
+                </div>
+
+                <button class="studio-primary-btn" @onclick="PrintInvoice">
+                    Print Invoice
+                </button>
+            </div>
+
             <div class="invoice-paper">
                 <div class="invoice-top">
                     <div>
@@ -258,6 +322,13 @@
                     <span>Grand Total</span>
                     <strong>@FormatRupiah(SelectedBooking.Price)</strong>
                 </div>
+
+                <div class="invoice-footer-note">
+                    <p>
+                        Terima kasih sudah menggunakan 37 Music Studio.
+                        Invoice ini adalah preview demo dan bisa dikembangkan menjadi export PDF otomatis.
+                    </p>
+                </div>
             </div>
         </div>
     </section>
@@ -266,10 +337,15 @@
 @code {
     private DateTime SelectedDate { get; } = DateTime.Today;
 
+    private string SearchQuery { get; set; } = string.Empty;
+    private string StatusFilter { get; set; } = "All";
+
     private string NewCustomerName { get; set; } = string.Empty;
     private string NewBookingTime { get; set; } = "19:00 - 21:00";
     private string NewNote { get; set; } = string.Empty;
     private int SelectedPackageId { get; set; } = 1;
+
+    private static readonly string[] StatusFilters = ["All", "Paid", "Pending", "Cancelled"];
 
     private List<StudioPackage> Packages { get; } =
     [
@@ -288,10 +364,28 @@
 
     private BookingItem SelectedBooking { get; set; } = default!;
 
+    private IEnumerable<BookingItem> FilteredBookings
+    {
+        get
+        {
+            var query = SearchQuery.Trim();
+
+            return Bookings
+                .Where(booking => StatusFilter == "All" || booking.Status == StatusFilter)
+                .Where(booking =>
+                    string.IsNullOrWhiteSpace(query) ||
+                    booking.CustomerName.Contains(query, StringComparison.OrdinalIgnoreCase) ||
+                    booking.PackageName.Contains(query, StringComparison.OrdinalIgnoreCase) ||
+                    booking.Status.Contains(query, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+        }
+    }
+
     private int TodayBookings => Bookings.Count;
     private int PaidBookings => Bookings.Count(booking => booking.Status == "Paid");
     private int PendingBookings => Bookings.Count(booking => booking.Status == "Pending");
-    private int TotalRevenue => Bookings.Sum(booking => booking.Price);
+    private int TotalRevenue => Bookings.Where(booking => booking.Status != "Cancelled").Sum(booking => booking.Price);
+    private int PaidRevenue => Bookings.Where(booking => booking.Status == "Paid").Sum(booking => booking.Price);
 
     protected override void OnInitialized()
     {
@@ -301,6 +395,11 @@
     private void SelectBooking(BookingItem booking)
     {
         SelectedBooking = booking;
+    }
+
+    private void SetFilter(string filter)
+    {
+        StatusFilter = filter;
     }
 
     private void AddBooking()
@@ -332,6 +431,53 @@
         NewCustomerName = string.Empty;
         NewBookingTime = "19:00 - 21:00";
         NewNote = string.Empty;
+        StatusFilter = "All";
+        SearchQuery = string.Empty;
+    }
+
+    private void MarkSelectedPaid()
+    {
+        UpdateSelectedStatus("Paid");
+    }
+
+    private void MarkSelectedPending()
+    {
+        UpdateSelectedStatus("Pending");
+    }
+
+    private void CancelSelectedBooking()
+    {
+        UpdateSelectedStatus("Cancelled");
+    }
+
+    private void UpdateSelectedStatus(string status)
+    {
+        var index = Bookings.FindIndex(booking => booking.Id == SelectedBooking.Id);
+
+        if (index < 0)
+        {
+            return;
+        }
+
+        var updatedBooking = SelectedBooking with { Status = status };
+        Bookings[index] = updatedBooking;
+        SelectedBooking = updatedBooking;
+    }
+
+    private void DeleteSelectedBooking()
+    {
+        if (Bookings.Count <= 1)
+        {
+            return;
+        }
+
+        Bookings.RemoveAll(booking => booking.Id == SelectedBooking.Id);
+        SelectedBooking = Bookings.First();
+    }
+
+    private async Task PrintInvoice()
+    {
+        await JS.InvokeVoidAsync("window.print");
     }
 
     private static string FormatRupiah(int value)
@@ -344,9 +490,20 @@
         return booking.Id == SelectedBooking.Id ? "booking-item active" : "booking-item";
     }
 
+    private string GetFilterClass(string filter)
+    {
+        return StatusFilter == filter ? "studio-filter active" : "studio-filter";
+    }
+
     private static string GetStatusClass(string status)
     {
-        return status == "Paid" ? "status-pill-demo paid" : "status-pill-demo pending";
+        return status switch
+        {
+            "Paid" => "status-pill-demo paid",
+            "Pending" => "status-pill-demo pending",
+            "Cancelled" => "status-pill-demo cancelled",
+            _ => "status-pill-demo"
+        };
     }
 
     private sealed record StudioPackage(

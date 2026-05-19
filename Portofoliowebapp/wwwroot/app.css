@@ -2260,3 +2260,535 @@ body {
         height: 180px;
     }
 }
+/* ================================
+   STUDIO DEMO INTERACTION PATCH
+   ================================ */
+
+.studio-command-bar {
+    display: grid;
+    grid-template-columns: 1fr minmax(260px, 420px);
+    align-items: end;
+    gap: 20px;
+    padding: 24px;
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 28px;
+    background: linear-gradient(145deg, rgba(255,255,255,0.11), rgba(255,255,255,0.045));
+    backdrop-filter: blur(24px);
+    box-shadow: 0 28px 90px rgba(0,0,0,0.28);
+}
+
+    .studio-command-bar p,
+    .invoice-toolbar p {
+        margin: 0 0 8px;
+        color: #43f7ff;
+        font-size: 0.78rem;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+    }
+
+    .studio-command-bar h2,
+    .invoice-toolbar h2 {
+        margin: 0;
+        font-size: clamp(1.6rem, 3vw, 2.6rem);
+        letter-spacing: -0.06em;
+    }
+
+.studio-search-wrap input {
+    width: 100%;
+    min-height: 52px;
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 999px;
+    padding: 0 18px;
+    color: #f8f9ff;
+    background: rgba(0,0,0,0.22);
+    outline: none;
+}
+
+    .studio-search-wrap input:focus {
+        border-color: rgba(67,247,255,0.7);
+        box-shadow: 0 0 0 4px rgba(67,247,255,0.1);
+    }
+
+.studio-filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 14px;
+}
+
+.studio-filter {
+    min-height: 42px;
+    padding: 0 16px;
+    border: 1px solid rgba(255,255,255,0.13);
+    border-radius: 999px;
+    color: #cfd5f3;
+    background: rgba(255,255,255,0.055);
+    font-weight: 900;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+    .studio-filter:hover,
+    .studio-filter.active {
+        color: #05050b;
+        border-color: transparent;
+        background: linear-gradient(135deg, #43f7ff, #c6ff3d);
+        transform: translateY(-2px);
+    }
+
+.booking-empty {
+    padding: 24px;
+    border: 1px dashed rgba(255,255,255,0.18);
+    border-radius: 22px;
+    text-align: center;
+    background: rgba(255,255,255,0.035);
+}
+
+    .booking-empty strong {
+        display: block;
+        font-size: 1.1rem;
+    }
+
+    .booking-empty p {
+        margin: 8px 0 0;
+        color: #aeb5d6;
+    }
+
+.status-pill-demo.cancelled {
+    color: #fff;
+    background: #ff5578;
+}
+
+.studio-action-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-top: 16px;
+}
+
+.studio-mini-btn {
+    min-height: 42px;
+    border: 0;
+    border-radius: 14px;
+    color: #05050b;
+    font-weight: 900;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+    .studio-mini-btn:hover {
+        transform: translateY(-2px);
+    }
+
+    .studio-mini-btn.paid {
+        background: #c6ff3d;
+    }
+
+    .studio-mini-btn.pending {
+        background: #ffcc70;
+    }
+
+    .studio-mini-btn.cancelled {
+        color: #fff;
+        background: #ff5578;
+    }
+
+    .studio-mini-btn.danger {
+        color: #fff;
+        background: rgba(255,255,255,0.12);
+        border: 1px solid rgba(255,255,255,0.14);
+    }
+
+.mini-insight-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 14px;
+}
+
+    .mini-insight-grid div {
+        padding: 14px;
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 16px;
+        background: rgba(255,255,255,0.045);
+    }
+
+    .mini-insight-grid span,
+    .mini-insight-grid strong {
+        display: block;
+    }
+
+    .mini-insight-grid span {
+        color: #aeb5d6;
+        font-size: 0.78rem;
+    }
+
+    .mini-insight-grid strong {
+        margin-top: 6px;
+        font-size: 0.95rem;
+    }
+
+.invoice-toolbar {
+    width: min(100%, 760px);
+    margin-bottom: 18px;
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.invoice-footer-note {
+    margin-top: 24px;
+    padding-top: 18px;
+    border-top: 1px solid #d9ddec;
+}
+
+    .invoice-footer-note p {
+        margin: 0;
+        color: #71758b;
+        line-height: 1.7;
+    }
+
+@media (max-width: 780px) {
+    .studio-command-bar,
+    .studio-action-row,
+    .mini-insight-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .invoice-toolbar {
+        align-items: stretch;
+        flex-direction: column;
+    }
+}
+
+/* Print mode: invoice only */
+@media print {
+    body {
+        background: #fff !important;
+    }
+
+    .studio-hero,
+    .studio-section:not(.print-section),
+    .invoice-toolbar {
+        display: none !important;
+    }
+
+    .studio-demo-page {
+        background: #fff !important;
+        color: #111 !important;
+    }
+
+    .print-section {
+        width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .invoice-preview {
+        border: 0 !important;
+        box-shadow: none !important;
+        background: #fff !important;
+        padding: 0 !important;
+    }
+
+    .invoice-paper {
+        width: 100% !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+    }
+}
+@page
+
+"/studio-admin"
+@rendermode InteractiveServer
+
+<PageTitle > 37 Music Studio Admin</PageTitle >
+
+<main class="admin-demo-page" >
+@if (!IsLoggedIn) {
+    <section class="admin-login-shell"> <div class="admin-login-card"> <a class="admin-back-link" href="/studio-demo">← Back to Studio Demo</a> <div class="admin-login-brand"> <span>37</span> <div> <h1>Studio Admin</h1> <p>Login demo dashboard manajemen studio musik.</p> </div> </div> <div class="admin-login-form"> <label> Email Admin <input @bind="LoginEmail" placeholder="admin@37musicstudio.com" /> </label> <label> Password <input @bind="LoginPassword" type="password" placeholder="password demo bebas" /> </label> <button class="admin-primary-btn" @onclick="Login"> Masuk Dashboard </button> <p class="admin-login-hint"> Demo mode: isi bebas, lalu klik masuk. Belum pakai database/backend. </p> </div> </div> <div class="admin-login-preview"> <div class="preview-window-top"> <span></span> <span></span> <span></span> <p>admin.37musicstudio.demo</p> </div> <div class="preview-admin-grid"> <div class="preview-admin-sidebar"> <i></i> <i></i> <i></i> <i></i> </div> <div class="preview-admin-main"> <div class="preview-admin-hero"></div> <div class="preview-admin-cards"> <span></span> <span></span> <span></span> </div> <div class="preview-admin-chart"> <i style="height: 42%"></i> <i style="height: 70%"></i> <i style="height: 58%"></i> <i style="height: 86%"></i> <i style="height: 64%"></i> <i style="height: 94%"></i> </div> </div> </div> </div> </section>
+}
+
+else {
+    <section class="admin-app-shell"> <aside class="admin-sidebar"> <a href="/studio-demo" class="admin-back-link small">← Studio Demo</a> <div class="admin-logo"> <span>37</span> <div> <strong>Music Studio</strong> <small>Admin Panel</small> </div> </div> <nav class="admin-menu"> @foreach (var item in MenuItems)
+
+{
+    <button class="@GetMenuClass(item.Key)" @onclick="() => SetSection(item.Key)"> <span>@item.Icon</span> @item.Label </button>
+}
+
+</nav >
+
+<button class="admin-logout-btn" @onclick="Logout" >
+Logout
+</button >
+</aside >
+
+<section class="admin-main" >
+<header class="admin-topbar" >
+<div >
+<p > Welcome back</p >
+<h1 > @CurrentSectionTitle</h1 >
+</div >
+
+<div class="admin-profile-pill" >
+<span > AR</span >
+<div >
+<strong > Admin Demo</strong >
+<small > @LoginEmail</small >
+</div >
+</div >
+</header >
+
+@if (ActiveSection == "overview") {
+    <section class="admin-content-grid"> <article class="admin-metric-card glow"> <span>Total Revenue</span> <strong>@FormatRupiah(TotalRevenue)</strong> <p>Projected bulan ini</p> </article> <article class="admin-metric-card"> <span>Paid Revenue</span> <strong>@FormatRupiah(PaidRevenue)</strong> <p>Transaksi lunas</p> </article> <article class="admin-metric-card"> <span>Booking</span> <strong>@Bookings.Count</strong> <p>Total jadwal aktif</p> </article> <article class="admin-metric-card"> <span>Customer</span> <strong>@Customers.Count</strong> <p>Database customer</p> </article> </section> <section class="admin-dashboard-layout"> <div class="admin-panel large"> <div class="admin-panel-header"> <div> <p>Weekly Performance</p> <h2>Grafik Booking</h2> </div> <span>Live Demo</span> </div> <div class="admin-chart-bars"> @foreach (var bar in WeeklyBars)
+
+{
+    <div> <i style="@($"height:
+
+{
+    bar .Value
+}
+
+%")" > </i >
+<span > @bar.Label</span >
+</div >
+}
+
+</div >
+</div >
+
+<div class="admin-panel" >
+<div class="admin-panel-header" >
+<div >
+<p > Today Queue</p >
+<h2 > Jadwal Hari Ini</h2 >
+</div >
+</div >
+
+<div class="admin-mini-list" >
+@foreach (var booking in Bookings.Take(4)) {
+    <button @onclick="() => SelectBooking(booking)"> <div> <strong>@booking.CustomerName</strong> <span>@booking.Time • @booking.PackageName</span> </div> <em class="@GetAdminStatusClass(booking.Status)">@booking.Status</em> </button>
+}
+
+</div >
+</div >
+</section >
+}
+
+@if (ActiveSection == "bookings") {
+    <section class="admin-panel" >
+    <div class="admin-panel-header split" >
+    <div >
+    <p > Booking Manager</p >
+    <h2 > Kelola Booking</h2 >
+    </div >
+
+    <input class="admin-search" @bind="BookingSearch" @bind:event="oninput" placeholder="Cari booking..." / >
+    </div >
+
+    <div class="admin-table" >
+    <div class="admin-table-row head" >
+    <span > Customer</span >
+    <span > Paket</span >
+    <span > Jam</span >
+    <span > Total</span >
+    <span > Status</span >
+    <span > Aksi</span >
+    </div >
+
+    @foreach (var booking in FilteredBookings) {
+        <div class="admin-table-row"> <span>@booking.CustomerName</span> <span>@booking.PackageName</span> <span>@booking.Time</span> <span>@FormatRupiah(booking.Price)</span> <span> <em class="@GetAdminStatusClass(booking.Status)">@booking.Status</em> </span> <span class="admin-row-actions"> <button @onclick="() => SetBookingStatus(booking.Id, "Paid")">Paid</button> <button @onclick="() => SetBookingStatus(booking.Id, "Pending")">Pending</button> <button @onclick="() => SetBookingStatus(booking.Id, "Cancelled")">Cancel</button> </span> </div>
+    }
+
+    </div> </section>
+}
+
+@if (ActiveSection == "customers") {
+    <section class="admin-panel" >
+    <div class="admin-panel-header" >
+    <div >
+    <p > Customer Database</p >
+    <h2 > Data Customer</h2 >
+    </div >
+    </div >
+
+    <div class="customer-card-grid" >
+    @foreach (var customer in Customers) {
+        <article class="customer-card"> <div class="customer-avatar">@customer.Initial</div> <h3>@customer.Name</h3> <p>@customer.Email</p> <div class="customer-stats"> <span>@customer.BookingCount booking</span> <strong>@FormatRupiah(customer.TotalSpend)</strong> </div> </article>
+    }
+
+    </div> </section>
+}
+
+@if (ActiveSection == "finance") {
+    <section class="admin-dashboard-layout"> <div class="admin-panel large"> <div class="admin-panel-header"> <div> <p>Finance</p> <h2>Ringkasan Keuangan</h2> </div> </div> <div class="finance-breakdown"> <div> <span>Projected Revenue</span> <strong>@FormatRupiah(TotalRevenue)</strong> </div> <div> <span>Paid Revenue</span> <strong>@FormatRupiah(PaidRevenue)</strong> </div> <div> <span>Pending Revenue</span> <strong>@FormatRupiah(PendingRevenue)</strong> </div> <div> <span>Cancelled Value</span> <strong>@FormatRupiah(CancelledRevenue)</strong> </div> </div> </div> <div class="admin-panel"> <div class="admin-panel-header"> <div> <p>Payment Status</p> <h2>Status Pembayaran</h2> </div> </div> <div class="payment-ring"> <div> <strong>@PaidPercentage%</strong> <span>Paid Rate</span> </div> </div> </div> </section>
+}
+
+@if (ActiveSection == "settings") {
+    <section class="admin-panel"> <div class="admin-panel-header"> <div> <p>Settings</p> <h2>Pengaturan Studio</h2> </div> </div> <div class="settings-grid"> <label> Nama Studio <input value="37 Music Studio" /> </label> <label> Email Admin <input value="@LoginEmail" /> </label> <label> Jam Operasional <input value="10:00 - 23:00" /> </label> <label> Default DP <input value="50%" /> </label> </div> <div class="admin-note-box"> <strong>Demo mode:</strong> setting ini belum disimpan ke database. Nanti bisa dikembangkan pakai backend sungguhan. </div> </section>
+}
+
+</section >
+</section >
+}
+
+</main >
+
+@code {
+    private bool IsLoggedIn {
+        get;
+        set;
+    }
+
+    private string LoginEmail {
+        get;
+        set;
+    }
+
+    = "admin@37musicstudio.com";
+
+    private string LoginPassword {
+        get;
+        set;
+    }
+
+    = string.Empty;
+
+    private string ActiveSection {
+        get;
+        set;
+    }
+
+    = "overview";
+
+    private string BookingSearch {
+        get;
+        set;
+    }
+
+    = string.Empty;
+
+    private List<MenuItem > MenuItems {
+        get;
+    }
+
+    = [
+        new("overview", "Overview", "⚡"),
+        new("bookings", "Bookings", "🎧"),
+        new("customers", "Customers", "👥"),
+        new("finance", "Finance", "💸"),
+        new("settings", "Settings", "⚙️")
+    ];
+
+    private List<BookingItem > Bookings {
+        get;
+    }
+
+    = [
+        new(1, "Rama Band", "Regular Session", "10:00 - 12:00", 150000, "Paid"),
+        new(2, "Alya Project", "Recording Prep", "13:00 - 15:00", 250000, "Pending"),
+        new(3, "Northside Kids", "Premium Night", "19:00 - 22:00", 350000, "Paid"),
+        new(4, "Dika Solo", "Regular Session", "22:00 - 23:00", 150000, "Pending"),
+        new(5, "Laras Voice", "Recording Prep", "15:30 - 17:30", 250000, "Cancelled")
+    ];
+
+    private List<CustomerItem > Customers {
+        get;
+    }
+
+    = [
+        new("Rama Band", "rama.band@email.com", "RB", 8, 1250000),
+        new("Alya Project", "alya.project@email.com", "AP", 5, 900000),
+        new("Northside Kids", "northside@email.com", "NK", 12, 2400000),
+        new("Dika Solo", "dika.solo@email.com", "DS", 3, 450000),
+        new("Laras Voice", "laras.voice@email.com", "LV", 4, 700000)
+    ];
+
+    private List<ChartBar > WeeklyBars {
+        get;
+    }
+
+    = [
+        new("Mon", 42),
+        new("Tue", 68),
+        new("Wed", 54),
+        new("Thu", 82),
+        new("Fri", 76),
+        new("Sat", 94),
+        new("Sun", 64)
+    ];
+    private IEnumerable<BookingItem> FilteredBookings => Bookings.Where(booking => string.IsNullOrWhiteSpace(BookingSearch) || booking.CustomerName.Contains(BookingSearch, StringComparison.OrdinalIgnoreCase) || booking.PackageName.Contains(BookingSearch, StringComparison.OrdinalIgnoreCase) || booking.Status.Contains(BookingSearch, StringComparison.OrdinalIgnoreCase) );
+    private string CurrentSectionTitle => MenuItems.First(item => item.Key == ActiveSection).Label;
+    private int TotalRevenue => Bookings.Where(booking => booking.Status != "Cancelled").Sum(booking => booking.Price);
+    private int PaidRevenue => Bookings.Where(booking => booking.Status == "Paid").Sum(booking => booking.Price);
+    private int PendingRevenue => Bookings.Where(booking => booking.Status == "Pending").Sum(booking => booking.Price);
+    private int CancelledRevenue => Bookings.Where(booking => booking.Status == "Cancelled").Sum(booking => booking.Price);
+
+    private int PaidPercentage {
+        get {
+            var activeCount = Bookings.Count(booking => booking.Status != "Cancelled");
+
+            if (activeCount == 0) {
+                return 0;
+            }
+
+            var paidCount = Bookings.Count(booking => booking.Status == "Paid");
+            return (int)Math.Round((double)paidCount / activeCount * 100);
+        }
+    }
+
+    private void Login() {
+        IsLoggedIn = true;
+    }
+
+    private void Logout() {
+        IsLoggedIn = false;
+        ActiveSection = "overview";
+    }
+
+    private void SetSection(string section) {
+        ActiveSection = section;
+    }
+
+    private void SelectBooking(BookingItem booking) {
+        ActiveSection = "bookings";
+        BookingSearch = booking.CustomerName;
+    }
+
+    private void SetBookingStatus(int id, string status) {
+        var index = Bookings.FindIndex(booking => booking.Id == id);
+
+        if (index < 0) {
+            return;
+        }
+
+        Bookings[index] = Bookings[index] with {
+            Status = status
+        }
+
+        ;
+    }
+
+    private string GetMenuClass(string key) {
+        return ActiveSection == key ? "admin-menu-item active" : "admin-menu-item";
+    }
+
+    private static string GetAdminStatusClass(string status) {
+        return status switch {
+            "Paid" => "admin-status paid", "Pending" => "admin-status pending", "Cancelled" => "admin-status cancelled", _ => "admin-status"
+        }
+
+        ;
+    }
+
+    private static string FormatRupiah(int value) {
+        return $"Rp {value:N0}".Replace(",", ".");
+    }
+
+    private sealed record MenuItem(string Key, string Label, string Icon);
+    private sealed record BookingItem(int Id, string CustomerName, string PackageName, string Time, int Price, string Status);
+    private sealed record CustomerItem(string Name, string Email, string Initial, int BookingCount, int TotalSpend);
+    private sealed record ChartBar(string Label, int Value);
+}

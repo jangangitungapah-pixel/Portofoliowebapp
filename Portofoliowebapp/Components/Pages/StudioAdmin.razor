@@ -1,0 +1,497 @@
+﻿@page "/studio-admin"
+@rendermode InteractiveServer
+
+<PageTitle>37 Music Studio Admin</PageTitle>
+
+<main class="admin-demo-page">
+    @if (!IsLoggedIn)
+    {
+        <section class="admin-login-shell">
+            <div class="admin-login-card">
+                <a class="admin-back-link" href="/studio-demo">← Back to Studio Demo</a>
+
+                <div class="admin-login-brand">
+                    <span>37</span>
+                    <div>
+                        <h1>Studio Admin</h1>
+                        <p>Login demo dashboard manajemen studio musik.</p>
+                    </div>
+                </div>
+
+                <div class="admin-login-form">
+                    <label>
+                        Email Admin
+                        <input @bind="LoginEmail" placeholder="admin@37musicstudio.com" />
+                    </label>
+
+                    <label>
+                        Password
+                        <input @bind="LoginPassword" type="password" placeholder="password demo bebas" />
+                    </label>
+
+                    <button class="admin-primary-btn" @onclick="Login">
+                        Masuk Dashboard
+                    </button>
+
+                    <p class="admin-login-hint">
+                        Demo mode: isi bebas, lalu klik masuk. Belum pakai database/backend.
+                    </p>
+                </div>
+            </div>
+
+            <div class="admin-login-preview">
+                <div class="preview-window-top">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <p>admin.37musicstudio.demo</p>
+                </div>
+
+                <div class="preview-admin-grid">
+                    <div class="preview-admin-sidebar">
+                        <i></i>
+                        <i></i>
+                        <i></i>
+                        <i></i>
+                    </div>
+
+                    <div class="preview-admin-main">
+                        <div class="preview-admin-hero"></div>
+                        <div class="preview-admin-cards">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <div class="preview-admin-chart">
+                            <i style="height: 42%"></i>
+                            <i style="height: 70%"></i>
+                            <i style="height: 58%"></i>
+                            <i style="height: 86%"></i>
+                            <i style="height: 64%"></i>
+                            <i style="height: 94%"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    }
+    else
+    {
+        <section class="admin-app-shell">
+            <aside class="admin-sidebar">
+                <a href="/studio-demo" class="admin-back-link small">← Studio Demo</a>
+
+                <div class="admin-logo">
+                    <span>37</span>
+                    <div>
+                        <strong>Music Studio</strong>
+                        <small>Admin Panel</small>
+                    </div>
+                </div>
+
+                <nav class="admin-menu">
+                    @foreach (var item in MenuItems)
+                    {
+                        <button class="@GetMenuClass(item.Key)" @onclick="() => SetSection(item.Key)">
+                            <span>@item.Icon</span>
+                            @item.Label
+                        </button>
+                    }
+                </nav>
+
+                <button class="admin-logout-btn" @onclick="Logout">
+                    Logout
+                </button>
+            </aside>
+
+            <section class="admin-main">
+                <header class="admin-topbar">
+                    <div>
+                        <p>Welcome back</p>
+                        <h1>@CurrentSectionTitle</h1>
+                    </div>
+
+                    <div class="admin-profile-pill">
+                        <span>AR</span>
+                        <div>
+                            <strong>Admin Demo</strong>
+                            <small>@LoginEmail</small>
+                        </div>
+                    </div>
+                </header>
+
+                @if (ActiveSection == "overview")
+                {
+                    <section class="admin-content-grid">
+                        <article class="admin-metric-card glow">
+                            <span>Total Revenue</span>
+                            <strong>@FormatRupiah(TotalRevenue)</strong>
+                            <p>Projected bulan ini</p>
+                        </article>
+
+                        <article class="admin-metric-card">
+                            <span>Paid Revenue</span>
+                            <strong>@FormatRupiah(PaidRevenue)</strong>
+                            <p>Transaksi lunas</p>
+                        </article>
+
+                        <article class="admin-metric-card">
+                            <span>Booking</span>
+                            <strong>@Bookings.Count</strong>
+                            <p>Total jadwal aktif</p>
+                        </article>
+
+                        <article class="admin-metric-card">
+                            <span>Customer</span>
+                            <strong>@Customers.Count</strong>
+                            <p>Database customer</p>
+                        </article>
+                    </section>
+
+                    <section class="admin-dashboard-layout">
+                        <div class="admin-panel large">
+                            <div class="admin-panel-header">
+                                <div>
+                                    <p>Weekly Performance</p>
+                                    <h2>Grafik Booking</h2>
+                                </div>
+                                <span>Live Demo</span>
+                            </div>
+
+                            <div class="admin-chart-bars">
+                                @foreach (var bar in WeeklyBars)
+                                {
+                                    <div>
+                                        <i style="@($"height: {bar.Value}%")"></i>
+                                        <span>@bar.Label</span>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="admin-panel">
+                            <div class="admin-panel-header">
+                                <div>
+                                    <p>Today Queue</p>
+                                    <h2>Jadwal Hari Ini</h2>
+                                </div>
+                            </div>
+
+                            <div class="admin-mini-list">
+                                @foreach (var booking in Bookings.Take(4))
+                                {
+                                    <button @onclick="() => SelectBooking(booking)">
+                                        <div>
+                                            <strong>@booking.CustomerName</strong>
+                                            <span>@booking.Time • @booking.PackageName</span>
+                                        </div>
+                                        <em class="@GetAdminStatusClass(booking.Status)">@booking.Status</em>
+                                    </button>
+                                }
+                            </div>
+                        </div>
+                    </section>
+                }
+
+                @if (ActiveSection == "bookings")
+                {
+                    <section class="admin-panel">
+                        <div class="admin-panel-header split">
+                            <div>
+                                <p>Booking Manager</p>
+                                <h2>Kelola Booking</h2>
+                            </div>
+
+                            <input class="admin-search" @bind="BookingSearch" @bind:event="oninput" placeholder="Cari booking..." />
+                        </div>
+
+                        <div class="admin-table">
+                            <div class="admin-table-row head">
+                                <span>Customer</span>
+                                <span>Paket</span>
+                                <span>Jam</span>
+                                <span>Total</span>
+                                <span>Status</span>
+                                <span>Aksi</span>
+                            </div>
+
+                            @foreach (var booking in FilteredBookings)
+                            {
+                                <div class="admin-table-row">
+                                    <span>@booking.CustomerName</span>
+                                    <span>@booking.PackageName</span>
+                                    <span>@booking.Time</span>
+                                    <span>@FormatRupiah(booking.Price)</span>
+                                    <span>
+                                        <em class="@GetAdminStatusClass(booking.Status)">@booking.Status</em>
+                                    </span>
+                                    <span class="admin-row-actions">
+                                        <button @onclick="() => SetBookingStatus(booking.Id," Paid")">Paid</button>
+                                        <button @onclick="() => SetBookingStatus(booking.Id," Pending")">Pending</button>
+                                        <button @onclick="() => SetBookingStatus(booking.Id," Cancelled")">Cancel</button>
+                                    </span>
+                                </div>
+                            }
+                        </div>
+                    </section>
+                }
+
+                @if (ActiveSection == "customers")
+                {
+                    <section class="admin-panel">
+                        <div class="admin-panel-header">
+                            <div>
+                                <p>Customer Database</p>
+                                <h2>Data Customer</h2>
+                            </div>
+                        </div>
+
+                        <div class="customer-card-grid">
+                            @foreach (var customer in Customers)
+                            {
+                                <article class="customer-card">
+                                    <div class="customer-avatar">@customer.Initial</div>
+                                    <h3>@customer.Name</h3>
+                                    <p>@customer.Email</p>
+
+                                    <div class="customer-stats">
+                                        <span>@customer.BookingCount booking</span>
+                                        <strong>@FormatRupiah(customer.TotalSpend)</strong>
+                                    </div>
+                                </article>
+                            }
+                        </div>
+                    </section>
+                }
+
+                @if (ActiveSection == "finance")
+                {
+                    <section class="admin-dashboard-layout">
+                        <div class="admin-panel large">
+                            <div class="admin-panel-header">
+                                <div>
+                                    <p>Finance</p>
+                                    <h2>Ringkasan Keuangan</h2>
+                                </div>
+                            </div>
+
+                            <div class="finance-breakdown">
+                                <div>
+                                    <span>Projected Revenue</span>
+                                    <strong>@FormatRupiah(TotalRevenue)</strong>
+                                </div>
+
+                                <div>
+                                    <span>Paid Revenue</span>
+                                    <strong>@FormatRupiah(PaidRevenue)</strong>
+                                </div>
+
+                                <div>
+                                    <span>Pending Revenue</span>
+                                    <strong>@FormatRupiah(PendingRevenue)</strong>
+                                </div>
+
+                                <div>
+                                    <span>Cancelled Value</span>
+                                    <strong>@FormatRupiah(CancelledRevenue)</strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="admin-panel">
+                            <div class="admin-panel-header">
+                                <div>
+                                    <p>Payment Status</p>
+                                    <h2>Status Pembayaran</h2>
+                                </div>
+                            </div>
+
+                            <div class="payment-ring">
+                                <div>
+                                    <strong>@PaidPercentage%</strong>
+                                    <span>Paid Rate</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                }
+
+                @if (ActiveSection == "settings")
+                {
+                    <section class="admin-panel">
+                        <div class="admin-panel-header">
+                            <div>
+                                <p>Settings</p>
+                                <h2>Pengaturan Studio</h2>
+                            </div>
+                        </div>
+
+                        <div class="settings-grid">
+                            <label>
+                                Nama Studio
+                                <input value="37 Music Studio" />
+                            </label>
+
+                            <label>
+                                Email Admin
+                                <input value="@LoginEmail" />
+                            </label>
+
+                            <label>
+                                Jam Operasional
+                                <input value="10:00 - 23:00" />
+                            </label>
+
+                            <label>
+                                Default DP
+                                <input value="50%" />
+                            </label>
+                        </div>
+
+                        <div class="admin-note-box">
+                            <strong>Demo mode:</strong>
+                            setting ini belum disimpan ke database. Nanti bisa dikembangkan pakai backend sungguhan.
+                        </div>
+                    </section>
+                }
+            </section>
+        </section>
+    }
+</main>
+
+@code {
+    private bool IsLoggedIn { get; set; }
+    private string LoginEmail { get; set; } = "admin@37musicstudio.com";
+    private string LoginPassword { get; set; } = string.Empty;
+    private string ActiveSection { get; set; } = "overview";
+    private string BookingSearch { get; set; } = string.Empty;
+
+    private List<MenuItem> MenuItems { get; } =
+    [
+        new("overview", "Overview", "⚡"),
+        new("bookings", "Bookings", "🎧"),
+        new("customers", "Customers", "👥"),
+        new("finance", "Finance", "💸"),
+        new("settings", "Settings", "⚙️")
+    ];
+
+    private List<BookingItem> Bookings { get; } =
+    [
+        new(1, "Rama Band", "Regular Session", "10:00 - 12:00", 150000, "Paid"),
+        new(2, "Alya Project", "Recording Prep", "13:00 - 15:00", 250000, "Pending"),
+        new(3, "Northside Kids", "Premium Night", "19:00 - 22:00", 350000, "Paid"),
+        new(4, "Dika Solo", "Regular Session", "22:00 - 23:00", 150000, "Pending"),
+        new(5, "Laras Voice", "Recording Prep", "15:30 - 17:30", 250000, "Cancelled")
+    ];
+
+    private List<CustomerItem> Customers { get; } =
+    [
+        new("Rama Band", "rama.band@email.com", "RB", 8, 1250000),
+        new("Alya Project", "alya.project@email.com", "AP", 5, 900000),
+        new("Northside Kids", "northside@email.com", "NK", 12, 2400000),
+        new("Dika Solo", "dika.solo@email.com", "DS", 3, 450000),
+        new("Laras Voice", "laras.voice@email.com", "LV", 4, 700000)
+    ];
+
+    private List<ChartBar> WeeklyBars { get; } =
+    [
+        new("Mon", 42),
+        new("Tue", 68),
+        new("Wed", 54),
+        new("Thu", 82),
+        new("Fri", 76),
+        new("Sat", 94),
+        new("Sun", 64)
+    ];
+
+    private IEnumerable<BookingItem> FilteredBookings =>
+        Bookings.Where(booking =>
+            string.IsNullOrWhiteSpace(BookingSearch) ||
+            booking.CustomerName.Contains(BookingSearch, StringComparison.OrdinalIgnoreCase) ||
+            booking.PackageName.Contains(BookingSearch, StringComparison.OrdinalIgnoreCase) ||
+            booking.Status.Contains(BookingSearch, StringComparison.OrdinalIgnoreCase)
+        );
+
+    private string CurrentSectionTitle => MenuItems.First(item => item.Key == ActiveSection).Label;
+
+    private int TotalRevenue => Bookings.Where(booking => booking.Status != "Cancelled").Sum(booking => booking.Price);
+    private int PaidRevenue => Bookings.Where(booking => booking.Status == "Paid").Sum(booking => booking.Price);
+    private int PendingRevenue => Bookings.Where(booking => booking.Status == "Pending").Sum(booking => booking.Price);
+    private int CancelledRevenue => Bookings.Where(booking => booking.Status == "Cancelled").Sum(booking => booking.Price);
+
+    private int PaidPercentage
+    {
+        get
+        {
+            var activeCount = Bookings.Count(booking => booking.Status != "Cancelled");
+
+            if (activeCount == 0)
+            {
+                return 0;
+            }
+
+            var paidCount = Bookings.Count(booking => booking.Status == "Paid");
+            return (int)Math.Round((double)paidCount / activeCount * 100);
+        }
+    }
+
+    private void Login()
+    {
+        IsLoggedIn = true;
+    }
+
+    private void Logout()
+    {
+        IsLoggedIn = false;
+        ActiveSection = "overview";
+    }
+
+    private void SetSection(string section)
+    {
+        ActiveSection = section;
+    }
+
+    private void SelectBooking(BookingItem booking)
+    {
+        ActiveSection = "bookings";
+        BookingSearch = booking.CustomerName;
+    }
+
+    private void SetBookingStatus(int id, string status)
+    {
+        var index = Bookings.FindIndex(booking => booking.Id == id);
+
+        if (index < 0)
+        {
+            return;
+        }
+
+        Bookings[index] = Bookings[index] with { Status = status };
+    }
+
+    private string GetMenuClass(string key)
+    {
+        return ActiveSection == key ? "admin-menu-item active" : "admin-menu-item";
+    }
+
+    private static string GetAdminStatusClass(string status)
+    {
+        return status switch
+        {
+            "Paid" => "admin-status paid",
+            "Pending" => "admin-status pending",
+            "Cancelled" => "admin-status cancelled",
+            _ => "admin-status"
+        };
+    }
+
+    private static string FormatRupiah(int value)
+    {
+        return $"Rp {value:N0}".Replace(",", ".");
+    }
+
+    private sealed record MenuItem(string Key, string Label, string Icon);
+    private sealed record BookingItem(int Id, string CustomerName, string PackageName, string Time, int Price, string Status);
+    private sealed record CustomerItem(string Name, string Email, string Initial, int BookingCount, int TotalSpend);
+    private sealed record ChartBar(string Label, int Value);
+}
