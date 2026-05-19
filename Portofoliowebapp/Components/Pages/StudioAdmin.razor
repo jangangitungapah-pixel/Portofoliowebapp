@@ -226,9 +226,9 @@
                                         <em class="@GetAdminStatusClass(booking.Status)">@booking.Status</em>
                                     </span>
                                     <span class="admin-row-actions">
-                                        <button @onclick="() => SetBookingStatus(booking.Id," Paid")">Paid</button>
-                                        <button @onclick="() => SetBookingStatus(booking.Id," Pending")">Pending</button>
-                                        <button @onclick="() => SetBookingStatus(booking.Id," Cancelled")">Cancel</button>
+                                        <button @onclick='() => SetBookingStatus(booking.Id, "Paid")'>Paid</button>
+                                        <button @onclick='() => SetBookingStatus(booking.Id, "Pending")'>Pending</button>
+                                        <button @onclick='() => SetBookingStatus(booking.Id, "Cancelled")'>Cancel</button>
                                     </span>
                                 </div>
                             }
