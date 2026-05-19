@@ -1,7 +1,501 @@
 ﻿@page "/"
+@rendermode InteractiveServer
 
-<PageTitle>Home</PageTitle>
+<PageTitle>AI Web App Builder Portfolio</PageTitle>
 
-<h1>Hello, world!</h1>
+<main class="portfolio-page">
+    <section class="hero-section" id="home">
+        <div class="hero-bg-orb hero-bg-orb-one"></div>
+        <div class="hero-bg-orb hero-bg-orb-two"></div>
 
-Welcome to your new app.
+        <nav class="landing-nav">
+            <a class="brand" href="#home" aria-label="Back to home">
+                <span class="brand-mark">AI</span>
+                <span class="brand-text">WebApp Builder</span>
+            </a>
+
+            <div class="nav-links">
+                <a href="#about">Tentang</a>
+                <a href="#services">Layanan</a>
+                <a href="#demo">Demo</a>
+                <a href="#projects">Project</a>
+                <a href="#contact">Kontak</a>
+            </div>
+        </nav>
+
+        <div class="hero-grid">
+            <div class="hero-copy">
+                <div class="eyebrow">
+                    <span class="pulse-dot"></span>
+                    AI-assisted web app creator
+                </div>
+
+                <h1>
+                    Gue bantu bikin
+                    <span>web app modern</span>
+                    dengan workflow AI.
+                </h1>
+
+                <p class="hero-description">
+                    Portfolio ini dibuat untuk nunjukin cara gue membangun website, landing page,
+                    dashboard, invoice system, booking app, dan prototype digital dengan bantuan AI,
+                    automation, prompt engineering, dan visual direction yang rapi.
+                </p>
+
+                <div class="hero-actions">
+                    <a class="btn-primary" href="#demo">
+                        Lihat Demo App
+                        <span>→</span>
+                    </a>
+
+                    <a class="btn-secondary" href="#contact">
+                        Diskusi Project
+                    </a>
+                </div>
+
+                <div class="hero-stats" aria-label="Portfolio highlights">
+                    <div>
+                        <strong>AI-first</strong>
+                        <span>Workflow</span>
+                    </div>
+                    <div>
+                        <strong>Fast</strong>
+                        <span>Prototype</span>
+                    </div>
+                    <div>
+                        <strong>No-code+</strong>
+                        <span>Mindset</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-showcase" aria-label="Web app preview">
+                <div class="browser-card">
+                    <div class="browser-topbar">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <p>portfolio.ai-builder.app</p>
+                    </div>
+
+                    <div class="dashboard-preview">
+                        <div class="preview-sidebar">
+                            <div class="mini-logo"></div>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+
+                        <div class="preview-content">
+                            <div class="preview-header">
+                                <div>
+                                    <p>AI Project Dashboard</p>
+                                    <h3>Launch Control</h3>
+                                </div>
+                                <span class="status-pill">Live Preview</span>
+                            </div>
+
+                            <div class="preview-cards">
+                                <div class="preview-card active">
+                                    <small>Landing Page</small>
+                                    <strong>92%</strong>
+                                </div>
+                                <div class="preview-card">
+                                    <small>Automation</small>
+                                    <strong>18 flow</strong>
+                                </div>
+                                <div class="preview-card">
+                                    <small>UI Polish</small>
+                                    <strong>Sharp</strong>
+                                </div>
+                            </div>
+
+                            <div class="preview-chart">
+                                <span style="height: 42%"></span>
+                                <span style="height: 66%"></span>
+                                <span style="height: 48%"></span>
+                                <span style="height: 82%"></span>
+                                <span style="height: 58%"></span>
+                                <span style="height: 92%"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="floating-note note-one">
+                    <strong>Prompt</strong>
+                    <span>→ UI direction</span>
+                </div>
+
+                <div class="floating-note note-two">
+                    <strong>AI</strong>
+                    <span>→ Code generation</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section about-section" id="about">
+        <div class="section-heading">
+            <p>Tentang gue</p>
+            <h2>Bukan cuma “generate code”, tapi ngarahin AI sampai jadi produk yang enak dipakai.</h2>
+        </div>
+
+        <div class="about-grid">
+            <article class="glass-card about-card-large">
+                <h3>Posisi gue</h3>
+                <p>
+                    Gue orang awam yang belajar bikin web app lewat AI. Kekuatan gue ada di cara
+                    menyusun kebutuhan, bikin prompt yang jelas, mengarahkan style UI, mencoba fitur,
+                    memperbaiki bug, dan merapikan hasilnya supaya terasa seperti produk beneran.
+                </p>
+            </article>
+
+            <article class="glass-card">
+                <span class="card-icon">⚡</span>
+                <h3>Cepat bikin prototype</h3>
+                <p>Dari ide mentah jadi tampilan awal yang bisa dicoba, dipresentasikan, dan dikembangkan.</p>
+            </article>
+
+            <article class="glass-card">
+                <span class="card-icon">🎨</span>
+                <h3>Visual direction</h3>
+                <p>Landing page, dashboard, invoice, company profile, dan UI modern dengan rasa brand yang kuat.</p>
+            </article>
+
+            <article class="glass-card">
+                <span class="card-icon">🤖</span>
+                <h3>AI workflow</h3>
+                <p>Menggunakan AI untuk generate, refactor, bikin konten, bantu desain, dan mempercepat produksi.</p>
+            </article>
+        </div>
+    </section>
+
+    <section class="section services-section" id="services">
+        <div class="section-heading compact">
+            <p>Layanan</p>
+            <h2>Yang bisa gue bantu bikin</h2>
+        </div>
+
+        <div class="service-grid">
+            <article class="service-card">
+                <span>01</span>
+                <h3>Landing Page Bisnis</h3>
+                <p>Halaman promosi modern untuk jasa, studio, UMKM, personal brand, event, atau produk digital.</p>
+            </article>
+
+            <article class="service-card">
+                <span>02</span>
+                <h3>Web App Prototype</h3>
+                <p>Prototype aplikasi seperti booking studio, invoice generator, dashboard admin, dan katalog layanan.</p>
+            </article>
+
+            <article class="service-card">
+                <span>03</span>
+                <h3>Dashboard & Admin UI</h3>
+                <p>Tampilan panel manajemen data yang rapi, informatif, dan mudah dipahami oleh user non-teknis.</p>
+            </article>
+
+            <article class="service-card">
+                <span>04</span>
+                <h3>AI Content System</h3>
+                <p>Bantu susun copywriting, struktur halaman, nama fitur, flow aplikasi, dan presentasi produk.</p>
+            </article>
+        </div>
+    </section>
+
+    <section class="section demo-section" id="demo">
+        <div class="section-heading">
+            <p>Demo web app</p>
+            <h2>Contoh mini app yang bisa masuk ke landing page ini.</h2>
+        </div>
+
+        <div class="demo-shell">
+            <div class="demo-tabs" role="tablist" aria-label="Demo app selector">
+                @for (var i = 0; i < Demos.Count; i++)
+                {
+                    var index = i;
+                    var demo = Demos[index];
+
+                    <button type="button"
+                            class="@GetDemoButtonClass(index)"
+                            @onclick="() => SelectDemo(index)"
+                            aria-pressed="@(ActiveDemoIndex == index)">
+                        <span>@demo.Number</span>
+                        @demo.Title
+                    </button>
+                }
+            </div>
+
+            <div class="demo-preview-panel">
+                <div class="app-window">
+                    <div class="app-window-top">
+                        <div>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <p>@ActiveDemo.Url</p>
+                    </div>
+
+                    <div class="app-window-body">
+                        <aside class="app-demo-sidebar">
+                            <div class="demo-avatar">@ActiveDemo.Icon</div>
+                            <p>@ActiveDemo.Category</p>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </aside>
+
+                        <div class="app-demo-main">
+                            <div class="demo-main-header">
+                                <div>
+                                    <p>@ActiveDemo.Label</p>
+                                    <h3>@ActiveDemo.Title</h3>
+                                </div>
+
+                                <span>@ActiveDemo.Badge</span>
+                            </div>
+
+                            <p class="demo-description">@ActiveDemo.Description</p>
+
+                            <div class="demo-metrics">
+                                <div>
+                                    <strong>@ActiveDemo.MetricOne</strong>
+                                    <span>@ActiveDemo.MetricOneLabel</span>
+                                </div>
+                                <div>
+                                    <strong>@ActiveDemo.MetricTwo</strong>
+                                    <span>@ActiveDemo.MetricTwoLabel</span>
+                                </div>
+                                <div>
+                                    <strong>@ActiveDemo.MetricThree</strong>
+                                    <span>@ActiveDemo.MetricThreeLabel</span>
+                                </div>
+                            </div>
+
+                            <div class="demo-list">
+                                @foreach (var item in ActiveDemo.Features)
+                                {
+                                    <div>
+                                        <span>✓</span>
+                                        <p>@item</p>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-caption">
+                    <strong>Catatan:</strong>
+                    ini masih mockup interaktif di landing page. Nanti bisa dikembangkan jadi app beneran
+                    dengan database, login, dan dashboard admin.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section projects-section" id="projects">
+        <div class="section-heading compact">
+            <p>Project ideas</p>
+            <h2>Konsep project yang bisa dipamerkan</h2>
+        </div>
+
+        <div class="project-grid">
+            <article class="project-card featured-project">
+                <div class="project-meta">
+                    <span>Featured</span>
+                    <span>Blazor Web App</span>
+                </div>
+                <h3>Studio Music Management App</h3>
+                <p>
+                    Sistem booking studio musik dengan jadwal, invoice, status pembayaran,
+                    data pelanggan, paket sewa, dan dashboard owner.
+                </p>
+                <a href="#contact">Bangun versi lengkap →</a>
+            </article>
+
+            <article class="project-card">
+                <div class="project-meta">
+                    <span>Prototype</span>
+                    <span>Invoice</span>
+                </div>
+                <h3>Digital Invoice Generator</h3>
+                <p>Generate invoice modern untuk jasa, rental, studio, dan UMKM.</p>
+            </article>
+
+            <article class="project-card">
+                <div class="project-meta">
+                    <span>Dashboard</span>
+                    <span>Admin UI</span>
+                </div>
+                <h3>Business Control Panel</h3>
+                <p>Panel visual untuk memantau order, revenue, customer, dan aktivitas harian.</p>
+            </article>
+        </div>
+    </section>
+
+    <section class="section process-section">
+        <div class="section-heading compact">
+            <p>Workflow</p>
+            <h2>Cara gue ngerjain project</h2>
+        </div>
+
+        <div class="timeline">
+            <div class="timeline-item">
+                <span>1</span>
+                <div>
+                    <h3>Brief & ide</h3>
+                    <p>Kita susun tujuan website, target user, fitur utama, dan vibe visualnya.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <span>2</span>
+                <div>
+                    <h3>AI prompt direction</h3>
+                    <p>Gue pecah kebutuhan jadi prompt yang jelas untuk layout, komponen, copywriting, dan logic.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <span>3</span>
+                <div>
+                    <h3>Build & polish</h3>
+                    <p>Generate kode, test tampilan, benerin bug, rapihin responsive, dan bikin lebih premium.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <span>4</span>
+                <div>
+                    <h3>Deploy-ready</h3>
+                    <p>Siapkan project agar siap dipublish, dipresentasikan, atau dikembangkan lagi.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact-section" id="contact">
+        <div>
+            <p>Siap bikin project?</p>
+            <h2>Yuk bikin web app yang keliatan mahal, walau mulai dari ide sederhana.</h2>
+        </div>
+
+        <div class="contact-actions">
+            <a class="btn-primary" href="mailto:emailkamu@example.com">
+                Email Gue
+                <span>→</span>
+            </a>
+
+            <a class="btn-secondary light" href="https://github.com/jangangitungapah-pixel/Portofoliowebapp" target="_blank" rel="noopener noreferrer">
+                Lihat GitHub
+            </a>
+        </div>
+    </section>
+</main>
+
+@code {
+    private int ActiveDemoIndex { get; set; }
+
+    private DemoItem ActiveDemo => Demos[ActiveDemoIndex];
+
+    private void SelectDemo(int index)
+    {
+        ActiveDemoIndex = index;
+    }
+
+    private string GetDemoButtonClass(int index)
+    {
+        return ActiveDemoIndex == index ? "demo-tab active" : "demo-tab";
+    }
+
+    private static readonly List<DemoItem> Demos =
+    [
+        new(
+            "01",
+            "Booking Studio Musik",
+            "Studio App",
+            "🎧",
+            "Management",
+            "studio-booking.demo",
+            "Ready for MVP",
+            "Demo sistem booking studio musik untuk mengatur jadwal, pelanggan, paket sewa, pembayaran, dan invoice.",
+            "24",
+            "Booking/bulan",
+            "8",
+            "Paket studio",
+            "96%",
+            "Slot rapi",
+            [
+                "Kalender booking studio harian dan mingguan",
+                "Status pembayaran: pending, DP, lunas",
+                "Data customer dan riwayat transaksi",
+                "Invoice otomatis untuk penyewaan studio"
+            ]
+        ),
+        new(
+            "02",
+            "Invoice Generator",
+            "Finance Tool",
+            "🧾",
+            "Automation",
+            "invoice-ai.demo",
+            "Auto layout",
+            "Demo pembuat invoice digital modern untuk jasa, rental, studio, toko, dan UMKM.",
+            "1 klik",
+            "Generate",
+            "PDF",
+            "Export",
+            "Clean",
+            "Design",
+            [
+                "Input nama client, layanan, harga, dan tanggal",
+                "Template invoice modern dan elegan",
+                "Hitung subtotal, diskon, pajak, dan total",
+                "Siap dikembangkan untuk export PDF"
+            ]
+        ),
+        new(
+            "03",
+            "Dashboard UMKM",
+            "Business Panel",
+            "📊",
+            "Dashboard",
+            "umkm-control.demo",
+            "Smart view",
+            "Demo dashboard untuk memantau omzet, order, customer, layanan populer, dan performa bisnis.",
+            "12.8jt",
+            "Omzet",
+            "42",
+            "Order",
+            "18%",
+            "Growth",
+            [
+                "Ringkasan omzet dan transaksi",
+                "Grafik performa mingguan",
+                "List order terbaru",
+                "Insight sederhana untuk owner bisnis"
+            ]
+        )
+    ];
+
+    private sealed record DemoItem(
+        string Number,
+        string Title,
+        string Category,
+        string Icon,
+        string Label,
+        string Url,
+        string Badge,
+        string Description,
+        string MetricOne,
+        string MetricOneLabel,
+        string MetricTwo,
+        string MetricTwoLabel,
+        string MetricThree,
+        string MetricThreeLabel,
+        string[] Features
+    );
+}
