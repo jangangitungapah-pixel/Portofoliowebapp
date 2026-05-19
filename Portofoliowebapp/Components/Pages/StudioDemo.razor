@@ -6,6 +6,17 @@
 <PageTitle>Studio Music Management Demo</PageTitle>
 
 <main class="studio-demo-page">
+    @if (IsToastVisible)
+    {
+        <div class="@ToastClass">
+            <div>
+                <strong>@ToastTitle</strong>
+                <p>@ToastMessage</p>
+            </div>
+
+            <button type="button" @onclick="HideToast">×</button>
+        </div>
+    }
     <section class="studio-hero">
         <nav class="studio-demo-nav">
             <a href="/" class="studio-back-link">← Back to Portfolio</a>
@@ -344,6 +355,13 @@
     private string NewBookingTime { get; set; } = "19:00 - 21:00";
     private string NewNote { get; set; } = string.Empty;
     private int SelectedPackageId { get; set; } = 1;
+    private bool IsToastVisible { get; set; }
+    private string ToastTitle { get; set; } = string.Empty;
+    private string ToastMessage { get; set; } = string.Empty;
+    private string ToastType { get; set; } = "success";
+    private int ToastVersion { get; set; }
+
+    private string ToastClass => $"app-toast {ToastType} show";
 
     private static readonly string[] StatusFilters = ["All", "Paid", "Pending", "Cancelled"];
 
@@ -402,7 +420,7 @@
         StatusFilter = filter;
     }
 
-    private void AddBooking()
+    private async Task AddBooking()
     {
         var selectedPackage = Packages.First(package => package.Id == SelectedPackageId);
 
@@ -433,24 +451,30 @@
         NewNote = string.Empty;
         StatusFilter = "All";
         SearchQuery = string.Empty;
+
+        await ShowToast(
+            "Booking ditambahkan",
+            $"{booking.CustomerName} masuk ke jadwal dengan status Pending.",
+            "success"
+        );
     }
 
-    private void MarkSelectedPaid()
+    private async Task MarkSelectedPaid()
     {
-        UpdateSelectedStatus("Paid");
+        await UpdateSelectedStatus("Paid", "Pembayaran lunas", $"{SelectedBooking.CustomerName} ditandai sudah lunas.", "success");
     }
 
-    private void MarkSelectedPending()
+    private async Task MarkSelectedPending()
     {
-        UpdateSelectedStatus("Pending");
+        await UpdateSelectedStatus("Pending", "Status pending", $"{SelectedBooking.CustomerName} dikembalikan ke status pending.", "warning");
     }
 
-    private void CancelSelectedBooking()
+    private async Task CancelSelectedBooking()
     {
-        UpdateSelectedStatus("Cancelled");
+        await UpdateSelectedStatus("Cancelled", "Booking dibatalkan", $"{SelectedBooking.CustomerName} ditandai cancelled.", "danger");
     }
 
-    private void UpdateSelectedStatus(string status)
+    private async Task UpdateSelectedStatus(string status, string title, string message, string type)
     {
         var index = Bookings.FindIndex(booking => booking.Id == SelectedBooking.Id);
 
@@ -462,21 +486,43 @@
         var updatedBooking = SelectedBooking with { Status = status };
         Bookings[index] = updatedBooking;
         SelectedBooking = updatedBooking;
+
+        await ShowToast(title, message, type);
     }
 
-    private void DeleteSelectedBooking()
+    private async Task DeleteSelectedBooking()
     {
         if (Bookings.Count <= 1)
         {
+            await ShowToast(
+                "Tidak bisa dihapus",
+                "Minimal harus ada satu booking di demo ini.",
+                "warning"
+            );
+
             return;
         }
 
+        var deletedCustomerName = SelectedBooking.CustomerName;
+
         Bookings.RemoveAll(booking => booking.Id == SelectedBooking.Id);
         SelectedBooking = Bookings.First();
+
+        await ShowToast(
+            "Booking dihapus",
+            $"{deletedCustomerName} sudah dihapus dari jadwal demo.",
+            "danger"
+        );
     }
 
     private async Task PrintInvoice()
     {
+        await ShowToast(
+            "Invoice siap dicetak",
+            $"Invoice untuk {SelectedBooking.CustomerName} akan dibuka di print dialog.",
+            "info"
+        );
+
         await JS.InvokeVoidAsync("window.print");
     }
 
@@ -504,6 +550,30 @@
             "Cancelled" => "status-pill-demo cancelled",
             _ => "status-pill-demo"
         };
+    }
+    private async Task ShowToast(string title, string message, string type = "success")
+    {
+        var currentVersion = ++ToastVersion;
+
+        ToastTitle = title;
+        ToastMessage = message;
+        ToastType = type;
+        IsToastVisible = true;
+
+        await InvokeAsync(StateHasChanged);
+        await Task.Delay(3200);
+
+        if (currentVersion == ToastVersion)
+        {
+            IsToastVisible = false;
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    private void HideToast()
+    {
+        ToastVersion++;
+        IsToastVisible = false;
     }
 
     private sealed record StudioPackage(

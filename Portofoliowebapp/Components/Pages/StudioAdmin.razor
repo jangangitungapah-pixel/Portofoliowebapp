@@ -4,6 +4,17 @@
 <PageTitle>37 Music Studio Admin</PageTitle>
 
 <main class="admin-demo-page">
+    @if (IsToastVisible)
+    {
+        <div class="@ToastClass">
+            <div>
+                <strong>@ToastTitle</strong>
+                <p>@ToastMessage</p>
+            </div>
+
+            <button type="button" @onclick="HideToast">×</button>
+        </div>
+    }
     @if (!IsLoggedIn)
     {
         <section class="admin-login-shell">
@@ -365,6 +376,13 @@
     private string LoginPassword { get; set; } = string.Empty;
     private string ActiveSection { get; set; } = "overview";
     private string BookingSearch { get; set; } = string.Empty;
+    private bool IsToastVisible { get; set; }
+    private string ToastTitle { get; set; } = string.Empty;
+    private string ToastMessage { get; set; } = string.Empty;
+    private string ToastType { get; set; } = "success";
+    private int ToastVersion { get; set; }
+
+    private string ToastClass => $"app-toast {ToastType} show";
 
     private List<MenuItem> MenuItems { get; } =
     [
@@ -435,15 +453,27 @@
         }
     }
 
-    private void Login()
+    private async Task Login()
     {
         IsLoggedIn = true;
+
+        await ShowToast(
+            "Login berhasil",
+            "Selamat datang di dashboard admin demo.",
+            "success"
+        );
     }
 
-    private void Logout()
+    private async Task Logout()
     {
         IsLoggedIn = false;
         ActiveSection = "overview";
+
+        await ShowToast(
+            "Logout berhasil",
+            "Kamu kembali ke halaman login demo.",
+            "info"
+        );
     }
 
     private void SetSection(string section)
@@ -451,13 +481,19 @@
         ActiveSection = section;
     }
 
-    private void SelectBooking(BookingItem booking)
+    private async Task SelectBooking(BookingItem booking)
     {
         ActiveSection = "bookings";
         BookingSearch = booking.CustomerName;
+
+        await ShowToast(
+            "Booking dipilih",
+            $"{booking.CustomerName} dibuka di Booking Manager.",
+            "info"
+        );
     }
 
-    private void SetBookingStatus(int id, string status)
+    private async Task SetBookingStatus(int id, string status)
     {
         var index = Bookings.FindIndex(booking => booking.Id == id);
 
@@ -466,7 +502,22 @@
             return;
         }
 
+        var customerName = Bookings[index].CustomerName;
         Bookings[index] = Bookings[index] with { Status = status };
+
+        var toastType = status switch
+        {
+            "Paid" => "success",
+            "Pending" => "warning",
+            "Cancelled" => "danger",
+            _ => "info"
+        };
+
+        await ShowToast(
+            "Status booking diubah",
+            $"{customerName} sekarang berstatus {status}.",
+            toastType
+        );
     }
 
     private string GetMenuClass(string key)
@@ -490,6 +541,30 @@
         return $"Rp {value:N0}".Replace(",", ".");
     }
 
+    private async Task ShowToast(string title, string message, string type = "success")
+    {
+        var currentVersion = ++ToastVersion;
+
+        ToastTitle = title;
+        ToastMessage = message;
+        ToastType = type;
+        IsToastVisible = true;
+
+        await InvokeAsync(StateHasChanged);
+        await Task.Delay(3200);
+
+        if (currentVersion == ToastVersion)
+        {
+            IsToastVisible = false;
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    private void HideToast()
+    {
+        ToastVersion++;
+        IsToastVisible = false;
+    }
     private sealed record MenuItem(string Key, string Label, string Icon);
     private sealed record BookingItem(int Id, string CustomerName, string PackageName, string Time, int Price, string Status);
     private sealed record CustomerItem(string Name, string Email, string Initial, int BookingCount, int TotalSpend);
