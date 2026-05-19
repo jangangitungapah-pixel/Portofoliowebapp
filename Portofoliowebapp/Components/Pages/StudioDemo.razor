@@ -17,6 +17,30 @@
             <button type="button" @onclick="HideToast">×</button>
         </div>
     }
+    @if (IsConfirmVisible)
+    {
+        <div class="confirm-backdrop" @onclick="CloseConfirmModal">
+            <div class="@ConfirmDialogClass" @onclick:stopPropagation="true">
+                <div class="confirm-icon">@ConfirmIcon</div>
+
+                <div class="confirm-content">
+                    <p>@ConfirmEyebrow</p>
+                    <h3>@ConfirmTitle</h3>
+                    <span>@ConfirmMessage</span>
+                </div>
+
+                <div class="confirm-actions">
+                    <button type="button" class="confirm-cancel-btn" @onclick="CloseConfirmModal">
+                        Batal
+                    </button>
+
+                    <button type="button" class="confirm-danger-btn" @onclick="RunConfirmAction">
+                        @ConfirmButtonText
+                    </button>
+                </div>
+            </div>
+        </div>
+    }
     <section class="studio-hero">
         <nav class="studio-demo-nav">
             <a href="/" class="studio-back-link">← Back to Portfolio</a>
@@ -191,8 +215,8 @@
             <div class="studio-action-row">
                 <button class="studio-mini-btn paid" @onclick="MarkSelectedPaid">Mark Paid</button>
                 <button class="studio-mini-btn pending" @onclick="MarkSelectedPending">Set Pending</button>
-                <button class="studio-mini-btn cancelled" @onclick="CancelSelectedBooking">Cancel</button>
-                <button class="studio-mini-btn danger" @onclick="DeleteSelectedBooking">Delete</button>
+                <button class="studio-mini-btn cancelled" @onclick="RequestCancelSelectedBooking">Cancel</button>
+                <button class="studio-mini-btn danger" @onclick="RequestDeleteSelectedBooking">Delete</button>
             </div>
 
             <div class="studio-note">
@@ -277,67 +301,131 @@
     </section>
 
     <section class="studio-section print-section" id="invoice">
-        <div class="studio-panel invoice-preview">
+        <div class="studio-panel invoice-preview invoice-preview-upgraded">
             <div class="invoice-toolbar">
                 <div>
                     <p>Invoice Preview</p>
-                    <h2>Preview tagihan booking terpilih</h2>
+                    <h2>Tagihan booking studio yang siap dicetak</h2>
                 </div>
 
-                <button class="studio-primary-btn" @onclick="PrintInvoice">
-                    Print Invoice
-                </button>
+                <div class="invoice-toolbar-actions">
+                    <button class="studio-secondary-btn" @onclick="CopyInvoiceSummary">
+                        Copy Summary
+                    </button>
+
+                    <button class="studio-primary-btn" @onclick="PrintInvoice">
+                        Print Invoice
+                    </button>
+                </div>
             </div>
 
-            <div class="invoice-paper">
-                <div class="invoice-top">
-                    <div>
-                        <p>INVOICE</p>
-                        <h2>37 Music Studio</h2>
+            <div class="invoice-paper upgraded-invoice">
+                <div class="invoice-brand-row">
+                    <div class="invoice-brand">
+                        <div class="invoice-logo">37</div>
+                        <div>
+                            <h2>37 Music Studio</h2>
+                            <p>Studio rehearsal, recording prep, and creative music space.</p>
+                        </div>
                     </div>
-                    <span>#INV-37-@SelectedBooking.Id.ToString("000")</span>
+
+                    <div class="invoice-badge">
+                        <span>Invoice</span>
+                        <strong>#INV-37-@SelectedBooking.Id.ToString("000")</strong>
+                    </div>
                 </div>
 
-                <div class="invoice-info-grid">
+                <div class="invoice-meta-grid upgraded">
                     <div>
                         <span>Bill To</span>
                         <strong>@SelectedBooking.CustomerName</strong>
+                        <p>Customer / Band / Project</p>
                     </div>
 
                     <div>
-                        <span>Date</span>
+                        <span>Invoice Date</span>
                         <strong>@SelectedDate.ToString("dd MMM yyyy")</strong>
+                        <p>Generated from demo app</p>
                     </div>
 
                     <div>
                         <span>Status</span>
                         <strong>@SelectedBooking.Status</strong>
+                        <p>@GetInvoiceStatusNote()</p>
                     </div>
                 </div>
 
-                <div class="invoice-table">
-                    <div class="invoice-row head">
+                <div class="invoice-studio-info">
+                    <div>
+                        <span>Studio Contact</span>
+                        <strong>marsicprod@gmail.com</strong>
+                        <p>Jakarta / Tangerang Area • Demo business profile</p>
+                    </div>
+
+                    <div>
+                        <span>Payment Method</span>
+                        <strong>Bank Transfer / Cash</strong>
+                        <p>Payment instruction can be customized for real business use.</p>
+                    </div>
+                </div>
+
+                <div class="invoice-service-table">
+                    <div class="invoice-service-row head">
                         <span>Layanan</span>
+                        <span>Waktu</span>
                         <span>Durasi</span>
                         <span>Total</span>
                     </div>
 
-                    <div class="invoice-row">
-                        <span>@SelectedBooking.PackageName</span>
+                    <div class="invoice-service-row">
+                        <span>
+                            <strong>@SelectedBooking.PackageName</strong>
+                            <small>@SelectedBooking.Note</small>
+                        </span>
+                        <span>@SelectedBooking.Time</span>
                         <span>@SelectedBooking.Duration jam</span>
                         <span>@FormatRupiah(SelectedBooking.Price)</span>
                     </div>
                 </div>
 
-                <div class="invoice-total">
-                    <span>Grand Total</span>
-                    <strong>@FormatRupiah(SelectedBooking.Price)</strong>
+                <div class="invoice-summary-grid">
+                    <div class="invoice-terms">
+                        <h3>Terms & Notes</h3>
+                        <ul>
+                            <li>Booking dianggap valid setelah pembayaran DP atau konfirmasi admin.</li>
+                            <li>Reschedule mengikuti ketersediaan slot studio.</li>
+                            <li>Invoice ini adalah preview demo dan belum terhubung ke database.</li>
+                        </ul>
+                    </div>
+
+                    <div class="invoice-total-card">
+                        <div>
+                            <span>Subtotal</span>
+                            <strong>@FormatRupiah(InvoiceSubtotal)</strong>
+                        </div>
+
+                        <div>
+                            <span>@InvoicePaidLabel</span>
+                            <strong>@FormatRupiah(InvoicePaidAmount)</strong>
+                        </div>
+
+                        <div>
+                            <span>Remaining</span>
+                            <strong>@FormatRupiah(InvoiceRemaining)</strong>
+                        </div>
+
+                        <div class="grand">
+                            <span>Grand Total</span>
+                            <strong>@FormatRupiah(InvoiceSubtotal)</strong>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="invoice-footer-note">
+                <div class="invoice-footer-upgraded">
                     <p>
-                        Terima kasih sudah menggunakan 37 Music Studio.
-                        Invoice ini adalah preview demo dan bisa dikembangkan menjadi export PDF otomatis.
+                        Thank you for choosing <strong>37 Music Studio</strong>.
+                        This invoice layout can be expanded into PDF export, automatic numbering,
+                        payment tracking, and customer history.
                     </p>
                 </div>
             </div>
@@ -362,6 +450,16 @@
     private int ToastVersion { get; set; }
 
     private string ToastClass => $"app-toast {ToastType} show";
+    private bool IsConfirmVisible { get; set; }
+    private string ConfirmEyebrow { get; set; } = "Konfirmasi aksi";
+    private string ConfirmTitle { get; set; } = string.Empty;
+    private string ConfirmMessage { get; set; } = string.Empty;
+    private string ConfirmButtonText { get; set; } = "Lanjutkan";
+    private string ConfirmIcon { get; set; } = "⚠️";
+    private string ConfirmType { get; set; } = "danger";
+    private Func<Task>? PendingConfirmAction { get; set; }
+
+    private string ConfirmDialogClass => $"confirm-dialog {ConfirmType}";
 
     private static readonly string[] StatusFilters = ["All", "Paid", "Pending", "Cancelled"];
 
@@ -404,6 +502,23 @@
     private int PendingBookings => Bookings.Count(booking => booking.Status == "Pending");
     private int TotalRevenue => Bookings.Where(booking => booking.Status != "Cancelled").Sum(booking => booking.Price);
     private int PaidRevenue => Bookings.Where(booking => booking.Status == "Paid").Sum(booking => booking.Price);
+    private int InvoiceSubtotal => SelectedBooking.Price;
+
+    private int InvoicePaidAmount => SelectedBooking.Status switch
+    {
+        "Paid" => SelectedBooking.Price,
+        "Cancelled" => 0,
+        _ => SelectedBooking.Price / 2
+    };
+
+    private int InvoiceRemaining => Math.Max(InvoiceSubtotal - InvoicePaidAmount, 0);
+
+    private string InvoicePaidLabel => SelectedBooking.Status switch
+    {
+        "Paid" => "Paid",
+        "Cancelled" => "Paid",
+        _ => "Estimated DP"
+    };
 
     protected override void OnInitialized()
     {
@@ -469,6 +584,67 @@
         await UpdateSelectedStatus("Pending", "Status pending", $"{SelectedBooking.CustomerName} dikembalikan ke status pending.", "warning");
     }
 
+    private void RequestCancelSelectedBooking()
+    {
+        OpenConfirmModal(
+            "Batalkan booking ini?",
+            $"{SelectedBooking.CustomerName} akan ditandai sebagai Cancelled. Data masih tetap ada di jadwal.",
+            "Ya, cancel",
+            "⚠️",
+            "warning",
+            CancelSelectedBooking
+        );
+    }
+
+    private void RequestDeleteSelectedBooking()
+    {
+        OpenConfirmModal(
+            "Hapus booking ini?",
+            $"{SelectedBooking.CustomerName} akan dihapus dari daftar booking demo. Aksi ini tidak bisa dibatalkan.",
+            "Ya, hapus",
+            "🗑️",
+            "danger",
+            DeleteSelectedBooking
+        );
+    }
+
+    private void OpenConfirmModal(
+        string title,
+        string message,
+        string buttonText,
+        string icon,
+        string type,
+        Func<Task> action)
+    {
+        ConfirmTitle = title;
+        ConfirmMessage = message;
+        ConfirmButtonText = buttonText;
+        ConfirmIcon = icon;
+        ConfirmType = type;
+        PendingConfirmAction = action;
+        IsConfirmVisible = true;
+    }
+
+    private void CloseConfirmModal()
+    {
+        IsConfirmVisible = false;
+        PendingConfirmAction = null;
+    }
+
+    private async Task RunConfirmAction()
+    {
+        if (PendingConfirmAction is null)
+        {
+            CloseConfirmModal();
+            return;
+        }
+
+        var action = PendingConfirmAction;
+        CloseConfirmModal();
+
+        await action.Invoke();
+    }
+
     private async Task CancelSelectedBooking()
     {
         await UpdateSelectedStatus("Cancelled", "Booking dibatalkan", $"{SelectedBooking.CustomerName} ditandai cancelled.", "danger");
@@ -524,6 +700,40 @@
         );
 
         await JS.InvokeVoidAsync("window.print");
+    }
+    private async Task CopyInvoiceSummary()
+    {
+        var summary = $"""
+    37 Music Studio Invoice
+    Invoice ID: #INV-37-{SelectedBooking.Id:000}
+    Customer: {SelectedBooking.CustomerName}
+    Package: {SelectedBooking.PackageName}
+    Time: {SelectedBooking.Time}
+    Duration: {SelectedBooking.Duration} jam
+    Status: {SelectedBooking.Status}
+    Subtotal: {FormatRupiah(InvoiceSubtotal)}
+    {InvoicePaidLabel}: {FormatRupiah(InvoicePaidAmount)}
+    Remaining: {FormatRupiah(InvoiceRemaining)}
+    """;
+
+        await JS.InvokeVoidAsync("navigator.clipboard.writeText", summary);
+
+        await ShowToast(
+            "Invoice summary disalin",
+            $"Ringkasan invoice {SelectedBooking.CustomerName} sudah masuk clipboard.",
+            "success"
+        );
+    }
+
+    private string GetInvoiceStatusNote()
+    {
+        return SelectedBooking.Status switch
+        {
+            "Paid" => "Payment completed",
+            "Pending" => "Waiting for payment confirmation",
+            "Cancelled" => "Booking has been cancelled",
+            _ => "Status generated from demo"
+        };
     }
 
     private static string FormatRupiah(int value)

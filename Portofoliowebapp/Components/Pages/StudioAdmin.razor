@@ -15,6 +15,30 @@
             <button type="button" @onclick="HideToast">×</button>
         </div>
     }
+    @if (IsConfirmVisible)
+    {
+        <div class="confirm-backdrop" @onclick="CloseConfirmModal">
+            <div class="@ConfirmDialogClass" @onclick:stopPropagation="true">
+                <div class="confirm-icon">@ConfirmIcon</div>
+
+                <div class="confirm-content">
+                    <p>@ConfirmEyebrow</p>
+                    <h3>@ConfirmTitle</h3>
+                    <span>@ConfirmMessage</span>
+                </div>
+
+                <div class="confirm-actions">
+                    <button type="button" class="confirm-cancel-btn" @onclick="CloseConfirmModal">
+                        Batal
+                    </button>
+
+                    <button type="button" class="confirm-danger-btn" @onclick="RunConfirmAction">
+                        @ConfirmButtonText
+                    </button>
+                </div>
+            </div>
+        </div>
+    }
     @if (!IsLoggedIn)
     {
         <section class="admin-login-shell">
@@ -239,7 +263,7 @@
                                     <span class="admin-row-actions">
                                         <button @onclick='() => SetBookingStatus(booking.Id, "Paid")'>Paid</button>
                                         <button @onclick='() => SetBookingStatus(booking.Id, "Pending")'>Pending</button>
-                                        <button @onclick='() => SetBookingStatus(booking.Id, "Cancelled")'>Cancel</button>
+                                        <button @onclick="() => RequestCancelBooking(booking)">Cancel</button>
                                     </span>
                                 </div>
                             }
@@ -383,6 +407,16 @@
     private int ToastVersion { get; set; }
 
     private string ToastClass => $"app-toast {ToastType} show";
+    private bool IsConfirmVisible { get; set; }
+    private string ConfirmEyebrow { get; set; } = "Konfirmasi aksi";
+    private string ConfirmTitle { get; set; } = string.Empty;
+    private string ConfirmMessage { get; set; } = string.Empty;
+    private string ConfirmButtonText { get; set; } = "Lanjutkan";
+    private string ConfirmIcon { get; set; } = "⚠️";
+    private string ConfirmType { get; set; } = "danger";
+    private Func<Task>? PendingConfirmAction { get; set; }
+
+    private string ConfirmDialogClass => $"confirm-dialog {ConfirmType}";
 
     private List<MenuItem> MenuItems { get; } =
     [
@@ -491,6 +525,55 @@
             $"{booking.CustomerName} dibuka di Booking Manager.",
             "info"
         );
+    }
+
+    private void RequestCancelBooking(BookingItem booking)
+    {
+        OpenConfirmModal(
+            "Cancel booking ini?",
+            $"{booking.CustomerName} akan ditandai sebagai Cancelled di dashboard admin.",
+            "Ya, cancel",
+            "⚠️",
+            "warning",
+            () => SetBookingStatus(booking.Id, "Cancelled")
+        );
+    }
+
+    private void OpenConfirmModal(
+        string title,
+        string message,
+        string buttonText,
+        string icon,
+        string type,
+        Func<Task> action)
+    {
+        ConfirmTitle = title;
+        ConfirmMessage = message;
+        ConfirmButtonText = buttonText;
+        ConfirmIcon = icon;
+        ConfirmType = type;
+        PendingConfirmAction = action;
+        IsConfirmVisible = true;
+    }
+
+    private void CloseConfirmModal()
+    {
+        IsConfirmVisible = false;
+        PendingConfirmAction = null;
+    }
+
+    private async Task RunConfirmAction()
+    {
+        if (PendingConfirmAction is null)
+        {
+            CloseConfirmModal();
+            return;
+        }
+
+        var action = PendingConfirmAction;
+        CloseConfirmModal();
+
+        await action.Invoke();
     }
 
     private async Task SetBookingStatus(int id, string status)

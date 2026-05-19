@@ -3506,3 +3506,423 @@ body {
         width: auto;
     }
 }
+/* ================================
+   GLOBAL CONFIRMATION MODAL
+   ================================ */
+
+.confirm-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 9998;
+    padding: 20px;
+    display: grid;
+    place-items: center;
+    background: rgba(0,0,0,0.58);
+    backdrop-filter: blur(16px);
+    animation: confirmFadeIn 0.2s ease both;
+}
+
+.confirm-dialog {
+    width: min(100%, 460px);
+    padding: 24px;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 28px;
+    color: #f8f9ff;
+    background: radial-gradient(circle at top right, rgba(67,247,255,0.12), transparent 18rem), linear-gradient(145deg, rgba(16,18,36,0.96), rgba(10,12,26,0.88));
+    box-shadow: 0 34px 110px rgba(0,0,0,0.54);
+    animation: confirmPopIn 0.22s ease both;
+}
+
+    .confirm-dialog.warning {
+        background: radial-gradient(circle at top right, rgba(255,204,112,0.16), transparent 18rem), linear-gradient(145deg, rgba(16,18,36,0.96), rgba(10,12,26,0.88));
+    }
+
+    .confirm-dialog.danger {
+        background: radial-gradient(circle at top right, rgba(255,85,120,0.16), transparent 18rem), linear-gradient(145deg, rgba(16,18,36,0.96), rgba(10,12,26,0.88));
+    }
+
+.confirm-icon {
+    width: 58px;
+    height: 58px;
+    margin-bottom: 18px;
+    border-radius: 20px;
+    display: grid;
+    place-items: center;
+    background: rgba(255,255,255,0.08);
+    font-size: 1.55rem;
+}
+
+.confirm-content p {
+    margin: 0 0 8px;
+    color: #43f7ff;
+    font-size: 0.76rem;
+    font-weight: 1000;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+}
+
+.confirm-content h3 {
+    margin: 0;
+    font-size: 1.65rem;
+    letter-spacing: -0.055em;
+}
+
+.confirm-content span {
+    display: block;
+    margin-top: 12px;
+    color: #aeb5d6;
+    line-height: 1.7;
+}
+
+.confirm-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 24px;
+}
+
+.confirm-cancel-btn,
+.confirm-danger-btn {
+    min-height: 44px;
+    padding: 0 16px;
+    border-radius: 999px;
+    font-weight: 1000;
+    cursor: pointer;
+}
+
+.confirm-cancel-btn {
+    color: #f8f9ff;
+    border: 1px solid rgba(255,255,255,0.14);
+    background: rgba(255,255,255,0.07);
+}
+
+.confirm-danger-btn {
+    border: 0;
+    color: #05050b;
+    background: linear-gradient(135deg, #43f7ff, #c6ff3d);
+}
+
+.confirm-dialog.danger .confirm-danger-btn {
+    color: #fff;
+    background: #ff5578;
+}
+
+.confirm-dialog.warning .confirm-danger-btn {
+    color: #140c00;
+    background: #ffcc70;
+}
+
+@keyframes confirmFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes confirmPopIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@media (max-width: 560px) {
+    .confirm-dialog {
+        border-radius: 24px;
+        padding: 20px;
+    }
+
+    .confirm-actions {
+        flex-direction: column-reverse;
+    }
+
+    .confirm-cancel-btn,
+    .confirm-danger-btn {
+        width: 100%;
+    }
+}
+/* ================================
+   UPGRADED INVOICE PREVIEW
+   ================================ */
+
+.invoice-preview-upgraded {
+    align-items: center;
+}
+
+.invoice-toolbar-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.upgraded-invoice {
+    width: min(100%, 860px);
+    overflow: hidden;
+}
+
+.invoice-brand-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 22px;
+    align-items: start;
+    padding-bottom: 26px;
+    border-bottom: 1px solid #d9ddec;
+}
+
+.invoice-brand {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.invoice-logo {
+    width: 68px;
+    height: 68px;
+    border-radius: 22px;
+    display: grid;
+    place-items: center;
+    color: #05050b;
+    background: linear-gradient(135deg, #43f7ff, #c6ff3d);
+    font-size: 1.45rem;
+    font-weight: 1000;
+    box-shadow: 0 18px 40px rgba(67,247,255,0.22);
+}
+
+.invoice-brand h2 {
+    margin: 0;
+    color: #151827;
+    font-size: 2rem;
+    letter-spacing: -0.06em;
+}
+
+.invoice-brand p,
+.invoice-badge span,
+.invoice-meta-grid p,
+.invoice-studio-info p {
+    margin: 6px 0 0;
+    color: #72768c;
+    line-height: 1.55;
+}
+
+.invoice-badge {
+    min-width: 190px;
+    padding: 16px;
+    border: 1px solid #d9ddec;
+    border-radius: 18px;
+    text-align: right;
+    background: #f0f3ff;
+}
+
+    .invoice-badge span,
+    .invoice-badge strong {
+        display: block;
+    }
+
+    .invoice-badge span {
+        margin: 0 0 6px;
+        font-size: 0.78rem;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+    }
+
+    .invoice-badge strong {
+        color: #151827;
+        font-size: 1.05rem;
+    }
+
+.invoice-meta-grid.upgraded {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    padding: 24px 0 14px;
+}
+
+    .invoice-meta-grid.upgraded > div,
+    .invoice-studio-info > div {
+        padding: 16px;
+        border: 1px solid #d9ddec;
+        border-radius: 18px;
+        background: #fbfcff;
+    }
+
+.invoice-meta-grid span,
+.invoice-studio-info span {
+    display: block;
+    color: #72768c;
+    font-size: 0.78rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+}
+
+.invoice-meta-grid strong,
+.invoice-studio-info strong {
+    display: block;
+    margin-top: 7px;
+    color: #151827;
+}
+
+.invoice-studio-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 22px;
+}
+
+.invoice-service-table {
+    overflow: hidden;
+    border: 1px solid #d9ddec;
+    border-radius: 20px;
+}
+
+.invoice-service-row {
+    display: grid;
+    grid-template-columns: 1.25fr 0.9fr 0.6fr 0.8fr;
+    gap: 14px;
+    align-items: center;
+    padding: 17px 18px;
+    color: #151827;
+}
+
+    .invoice-service-row.head {
+        color: #4f556d;
+        background: #eceeff;
+        font-weight: 1000;
+        font-size: 0.82rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+    }
+
+    .invoice-service-row strong,
+    .invoice-service-row small {
+        display: block;
+    }
+
+    .invoice-service-row small {
+        margin-top: 6px;
+        color: #72768c;
+        line-height: 1.45;
+    }
+
+.invoice-summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 20px;
+    align-items: start;
+    margin-top: 22px;
+}
+
+.invoice-terms {
+    padding: 18px;
+    border: 1px solid #d9ddec;
+    border-radius: 20px;
+    background: #fbfcff;
+}
+
+    .invoice-terms h3 {
+        margin: 0 0 12px;
+        color: #151827;
+        letter-spacing: -0.04em;
+    }
+
+    .invoice-terms ul {
+        margin: 0;
+        padding-left: 18px;
+        color: #666b82;
+        line-height: 1.75;
+    }
+
+.invoice-total-card {
+    padding: 18px;
+    border: 1px solid #d9ddec;
+    border-radius: 20px;
+    background: #f7f8ff;
+}
+
+    .invoice-total-card div {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        padding: 11px 0;
+        color: #151827;
+        border-bottom: 1px solid #d9ddec;
+    }
+
+        .invoice-total-card div:first-child {
+            padding-top: 0;
+        }
+
+        .invoice-total-card div.grand {
+            padding-top: 16px;
+            padding-bottom: 0;
+            border-bottom: 0;
+        }
+
+    .invoice-total-card span {
+        color: #72768c;
+    }
+
+    .invoice-total-card strong {
+        color: #151827;
+    }
+
+    .invoice-total-card .grand strong {
+        font-size: 1.5rem;
+        letter-spacing: -0.04em;
+    }
+
+.invoice-footer-upgraded {
+    margin-top: 24px;
+    padding-top: 18px;
+    border-top: 1px solid #d9ddec;
+}
+
+    .invoice-footer-upgraded p {
+        margin: 0;
+        color: #666b82;
+        line-height: 1.7;
+    }
+
+@media (max-width: 780px) {
+    .invoice-brand-row,
+    .invoice-meta-grid.upgraded,
+    .invoice-studio-info,
+    .invoice-service-row,
+    .invoice-summary-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .invoice-badge {
+        text-align: left;
+    }
+
+    .invoice-toolbar-actions {
+        justify-content: flex-start;
+    }
+}
+
+@media print {
+    .invoice-toolbar-actions,
+    .invoice-toolbar {
+        display: none !important;
+    }
+
+    .upgraded-invoice {
+        width: 100% !important;
+    }
+
+    .invoice-paper {
+        box-shadow: none !important;
+    }
+}
